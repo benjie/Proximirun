@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		143F33F01468323E004D2F8A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F33EF1468323E004D2F8A /* Cocoa.framework */; };
+		143F33FA1468323E004D2F8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 143F33F81468323E004D2F8A /* InfoPlist.strings */; };
+		143F33FC1468323E004D2F8A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 143F33FB1468323E004D2F8A /* main.m */; };
+		143F34001468323E004D2F8A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 143F33FE1468323E004D2F8A /* Credits.rtf */; };
+		143F34031468323E004D2F8A /* PRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 143F34021468323E004D2F8A /* PRAppDelegate.m */; };
+		143F34061468323E004D2F8A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143F34041468323E004D2F8A /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		143F33EB1468323E004D2F8A /* Proximirun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Proximirun.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		143F33EF1468323E004D2F8A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		143F33F21468323E004D2F8A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		143F33F31468323E004D2F8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		143F33F41468323E004D2F8A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		143F33F71468323E004D2F8A /* Proximirun-Info.plist */ = {isa = PBXFileReference; path = "Proximirun-Info.plist"; sourceTree = "<group>"; };
+		143F33F91468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		143F33FB1468323E004D2F8A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		143F33FD1468323E004D2F8A /* Proximirun-Prefix.pch */ = {isa = PBXFileReference; path = "Proximirun-Prefix.pch"; sourceTree = "<group>"; };
+		143F33FF1468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		143F34011468323E004D2F8A /* PRAppDelegate.h */ = {isa = PBXFileReference; path = PRAppDelegate.h; sourceTree = "<group>"; };
+		143F34021468323E004D2F8A /* PRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRAppDelegate.m; sourceTree = "<group>"; };
+		143F34051468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		143F33E81468323E004D2F8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				143F33F01468323E004D2F8A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		143F33E01468323D004D2F8A = {
+			isa = PBXGroup;
+			children = (
+				143F33F51468323E004D2F8A /* Proximirun */,
+				143F33EE1468323E004D2F8A /* Frameworks */,
+				143F33EC1468323E004D2F8A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		143F33EC1468323E004D2F8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				143F33EB1468323E004D2F8A /* Proximirun.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		143F33EE1468323E004D2F8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				143F33EF1468323E004D2F8A /* Cocoa.framework */,
+				143F33F11468323E004D2F8A /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		143F33F11468323E004D2F8A /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				143F33F21468323E004D2F8A /* AppKit.framework */,
+				143F33F31468323E004D2F8A /* CoreData.framework */,
+				143F33F41468323E004D2F8A /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		143F33F51468323E004D2F8A /* Proximirun */ = {
+			isa = PBXGroup;
+			children = (
+				143F34011468323E004D2F8A /* PRAppDelegate.h */,
+				143F34021468323E004D2F8A /* PRAppDelegate.m */,
+				143F34041468323E004D2F8A /* MainMenu.xib */,
+				143F33F61468323E004D2F8A /* Supporting Files */,
+			);
+			path = Proximirun;
+			sourceTree = "<group>";
+		};
+		143F33F61468323E004D2F8A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				143F33F71468323E004D2F8A /* Proximirun-Info.plist */,
+				143F33F81468323E004D2F8A /* InfoPlist.strings */,
+				143F33FB1468323E004D2F8A /* main.m */,
+				143F33FD1468323E004D2F8A /* Proximirun-Prefix.pch */,
+				143F33FE1468323E004D2F8A /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		143F33EA1468323E004D2F8A /* Proximirun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 143F34091468323E004D2F8A /* Build configuration list for PBXNativeTarget "Proximirun" */;
+			buildPhases = (
+				143F33E71468323E004D2F8A /* Sources */,
+				143F33E81468323E004D2F8A /* Frameworks */,
+				143F33E91468323E004D2F8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Proximirun;
+			productName = Proximirun;
+			productReference = 143F33EB1468323E004D2F8A /* Proximirun.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		143F33E21468323D004D2F8A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "BrainBakery Ltd.";
+			};
+			buildConfigurationList = 143F33E51468323D004D2F8A /* Build configuration list for PBXProject "Proximirun" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 143F33E01468323D004D2F8A;
+			productRefGroup = 143F33EC1468323E004D2F8A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				143F33EA1468323E004D2F8A /* Proximirun */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		143F33E91468323E004D2F8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				143F33FA1468323E004D2F8A /* InfoPlist.strings in Resources */,
+				143F34001468323E004D2F8A /* Credits.rtf in Resources */,
+				143F34061468323E004D2F8A /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		143F33E71468323E004D2F8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				143F33FC1468323E004D2F8A /* main.m in Sources */,
+				143F34031468323E004D2F8A /* PRAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		143F33F81468323E004D2F8A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				143F33F91468323E004D2F8A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		143F33FE1468323E004D2F8A /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				143F33FF1468323E004D2F8A /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		143F34041468323E004D2F8A /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				143F34051468323E004D2F8A /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		143F34071468323E004D2F8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		143F34081468323E004D2F8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		143F340A1468323E004D2F8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Proximirun/Proximirun-Prefix.pch";
+				INFOPLIST_FILE = "Proximirun/Proximirun-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		143F340B1468323E004D2F8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Proximirun/Proximirun-Prefix.pch";
+				INFOPLIST_FILE = "Proximirun/Proximirun-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		143F33E51468323D004D2F8A /* Build configuration list for PBXProject "Proximirun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				143F34071468323E004D2F8A /* Debug */,
+				143F34081468323E004D2F8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		143F34091468323E004D2F8A /* Build configuration list for PBXNativeTarget "Proximirun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				143F340A1468323E004D2F8A /* Debug */,
+				143F340B1468323E004D2F8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 143F33E21468323D004D2F8A /* Project object */;
+}
