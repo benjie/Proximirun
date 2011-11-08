@@ -11,7 +11,7 @@
 #import <IOBluetoothUI/IOBluetoothUI.h>
 //#import <IOBluetoothUI/objc/IOBluetoothDeviceSelectorController.h>
 
-@interface PRAppDelegate : NSObject <NSApplicationDelegate> {
+@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks> {
 	
 	IBOutlet NSTextField *chosenDeviceLabel;
 	IBOutlet NSProgressIndicator *deviceActivityIndicator;
@@ -24,10 +24,13 @@
 	
 	
 	IOBluetoothDevice *device;
+	NSTimer *monitorTimer;
+	BOOL inProgress;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 
 - (IBAction)selectDeviceButtonPressed:(id)sender;
 - (IBAction)connectNowButtonPressed:(id)sender;
+- (void)monitor;
 @end

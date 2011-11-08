@@ -24,37 +24,39 @@
 }
 
 #pragma mark -
-
-
-- (BOOL)isInRange {
-	BluetoothHCIRSSIValue RSSI = 127; /* Valid Range: -127 to +20 */
-	if (device) {
-		[deviceActivityIndicator startAnimation:nil];
-		if (![device isConnected]) {
-			[device openConnection];//:nil withPageTimeout:BluetoothGetSlotsFromSeconds(2) authenticationRequired:NO];
-		}
-		if ([device isConnected]) {
-			RSSI = [device rawRSSI];
-			[device closeConnection];
-		}
-		[deviceActivityIndicator stopAnimation:nil];
+-(void)scheduleMonitor {
+	if (!monitorTimer && [monitoringEnabledCheck state] == NSOnState) {
+		int interval = [monitoringIntervalTextField intValue];
+		if (interval < 1) interval = 1;
+		monitorTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(monitor) userInfo:nil repeats:NO] retain];
 	}
+}
+-(void)setDeviceIsInRange:(BOOL)iir {
+	[currentRSSILabel setTextColor:(iir?[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]:[NSColor redColor])];
+	[self scheduleMonitor];	
+	inProgress = NO;
+	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
+}
+-(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
+	//BluetoothHCIRSSIValue RSSI = 127; /* Valid Range: -127 to +20 */
 	if (RSSI > 20) {
 		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
 	} else {
 		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i",RSSI]];
 	}
-	if (RSSI >= [requiredRSSITextField intValue] && RSSI <= 20) {
-		[currentRSSILabel setTextColor:[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]];
-		return YES;
+	[self setDeviceIsInRange:(RSSI >= [requiredRSSITextField intValue] && RSSI <= 20)];
+}
+-(void)checkRSSI {
+	if ([device isConnected]) {
+		[self actOnRSSI:[device rawRSSI]];
 	} else {
-		[currentRSSILabel setTextColor:[NSColor redColor]];
-		return NO;
+		[self actOnRSSI:127];
 	}
 }
+-(void)connectionComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
+	[self checkRSSI];
+}
 #pragma mark -
-
-
 - (void)dealloc
 {
     [super dealloc];
@@ -82,14 +84,22 @@
 	}
 }
 -(void)monitor {
-	if ([self isInRange]) {
-		//...
+	if (inProgress) return;
+	RELEASE_TIMER(monitorTimer);
+	if (device) {
+		inProgress = YES;
+		[deviceActivityIndicator startAnimation:nil];
+		if ([device isConnected]) {
+			[self checkRSSI];
+		} else {
+			[device openConnection:self];
+		}
+	} else {
+		[self scheduleMonitor];
 	}
 }
 
 - (IBAction)selectDeviceButtonPressed:(id)sender {
-}
-- (IBAction)connectNowButtonPressed:(id)sender {
 	IOBluetoothDeviceSelectorController *dsc = [IOBluetoothDeviceSelectorController deviceSelector];
 	[dsc runModal];
 	
@@ -102,5 +112,8 @@
 	device = [[results objectAtIndex:0] retain];
 	[self updatedSelectedDevice];
 	[[NSUserDefaults standardUserDefaults] setValue:[device addressString] forKey:@"device"];
+}
+- (IBAction)connectNowButtonPressed:(id)sender {
+	[self monitor];
 }
 @end
