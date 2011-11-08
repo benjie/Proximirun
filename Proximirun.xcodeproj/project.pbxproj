@@ -13,6 +13,8 @@
 		143F34001468323E004D2F8A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 143F33FE1468323E004D2F8A /* Credits.rtf */; };
 		143F34031468323E004D2F8A /* PRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 143F34021468323E004D2F8A /* PRAppDelegate.m */; };
 		143F34061468323E004D2F8A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143F34041468323E004D2F8A /* MainMenu.xib */; };
+		143F340D14697460004D2F8A /* IOBluetoothUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F340C14697460004D2F8A /* IOBluetoothUI.framework */; };
+		143F340F1469746E004D2F8A /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F340E1469746E004D2F8A /* IOBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,14 +23,16 @@
 		143F33F21468323E004D2F8A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		143F33F31468323E004D2F8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		143F33F41468323E004D2F8A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		143F33F71468323E004D2F8A /* Proximirun-Info.plist */ = {isa = PBXFileReference; path = "Proximirun-Info.plist"; sourceTree = "<group>"; };
+		143F33F71468323E004D2F8A /* Proximirun-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Proximirun-Info.plist"; sourceTree = "<group>"; };
 		143F33F91468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		143F33FB1468323E004D2F8A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		143F33FD1468323E004D2F8A /* Proximirun-Prefix.pch */ = {isa = PBXFileReference; path = "Proximirun-Prefix.pch"; sourceTree = "<group>"; };
+		143F33FD1468323E004D2F8A /* Proximirun-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Proximirun-Prefix.pch"; sourceTree = "<group>"; };
 		143F33FF1468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		143F34011468323E004D2F8A /* PRAppDelegate.h */ = {isa = PBXFileReference; path = PRAppDelegate.h; sourceTree = "<group>"; };
+		143F34011468323E004D2F8A /* PRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRAppDelegate.h; sourceTree = "<group>"; };
 		143F34021468323E004D2F8A /* PRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRAppDelegate.m; sourceTree = "<group>"; };
 		143F34051468323E004D2F8A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		143F340C14697460004D2F8A /* IOBluetoothUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetoothUI.framework; path = System/Library/Frameworks/IOBluetoothUI.framework; sourceTree = SDKROOT; };
+		143F340E1469746E004D2F8A /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				143F340F1469746E004D2F8A /* IOBluetooth.framework in Frameworks */,
+				143F340D14697460004D2F8A /* IOBluetoothUI.framework in Frameworks */,
 				143F33F01468323E004D2F8A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +52,8 @@
 		143F33E01468323D004D2F8A = {
 			isa = PBXGroup;
 			children = (
+				143F340E1469746E004D2F8A /* IOBluetooth.framework */,
+				143F340C14697460004D2F8A /* IOBluetoothUI.framework */,
 				143F33F51468323E004D2F8A /* Proximirun */,
 				143F33EE1468323E004D2F8A /* Frameworks */,
 				143F33EC1468323E004D2F8A /* Products */,

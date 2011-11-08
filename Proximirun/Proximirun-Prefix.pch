@@ -5,3 +5,8 @@
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
 #endif
+
+#define RELEASE(X) [X release]; \
+X=nil
+#define SWF(...) [NSString stringWithFormat:__VA_ARGS__]
+#define PWF(...) [NSPredicate predicateWithFormat:__VA_ARGS__]
