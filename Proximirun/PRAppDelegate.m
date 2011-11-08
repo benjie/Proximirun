@@ -53,6 +53,12 @@
 		[self actOnRSSI:127];
 	}
 }
+- (void)remoteNameRequestComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
+	
+}
+- (void)sdpQueryComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
+	
+}
 -(void)connectionComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
 	[self checkRSSI];
 }
@@ -89,10 +95,11 @@
 	if (device) {
 		inProgress = YES;
 		[deviceActivityIndicator startAnimation:nil];
-		if ([device isConnected]) {
+		if ([device isConnected] || [device openConnection:self] != kIOReturnSuccess) {
+			// Couldn't issue connect command, so skip to next stage.
 			[self checkRSSI];
 		} else {
-			[device openConnection:self];
+			// Fine, continue asynchronously.
 		}
 	} else {
 		[self scheduleMonitor];
