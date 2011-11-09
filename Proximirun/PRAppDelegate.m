@@ -100,7 +100,7 @@
 	}
 }
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
-	//BluetoothHCIRSSIValue RSSI = 127; /* Valid Range: -127 to +20 */
+	//BluetoothHCIRSSIValue Valid Range: -127 to +20
 	if (RSSI > 20) {
 		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
 	} else {
@@ -109,11 +109,7 @@
 	[self setDeviceIsInRange:(RSSI >= [requiredRSSITextField intValue] && RSSI <= 20)];
 }
 -(void)checkRSSI {
-	if ([device isConnected]) {
-		[self actOnRSSI:[device rawRSSI]];
-	} else {
-		[self actOnRSSI:127];
-	}
+	[self actOnRSSI:[device rawRSSI]];
 }
 - (void)remoteNameRequestComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
 	
