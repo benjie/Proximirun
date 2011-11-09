@@ -68,12 +68,12 @@
 	}
 }
 -(void)setDeviceIsInRange:(BOOL)iir {
-	[statusItem setTitle:iir?@"In Range":@"AFK"];
 	[currentRSSILabel setTextColor:(iir?[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]:[NSColor redColor])];
 	[self scheduleMonitor];	
 	inProgress = NO;
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
-	if (!iir && IS_CHECKED(noAFKWhenInUseCheck) && [self idleTime] < [monitoringIntervalTextField intValue]) {
+	BOOL overridden = NO;
+	if (!iir && [self idleTime] < [monitoringIntervalTextField intValue]) {
 		if (warnIfAFKAndInUseCheck) {
 			//Growl
 			if ([GrowlApplicationBridge isGrowlRunning]) {
@@ -82,8 +82,12 @@
 			}
 			
 		}
-		iir = YES;
+		if (IS_CHECKED(noAFKWhenInUseCheck)) {
+			iir = YES;
+			overridden = YES;
+		}
 	}
+	[statusItem setTitle:(iir?(overridden?@"At Mac (!)":@"In Range"):@"AFK")];
 	PRDeviceRange newRange = iir?PRDeviceRangeInRange : PRDeviceRangeOutOfRange;
 	if (newRange != deviceRange) {
 		deviceRange = newRange;
@@ -183,6 +187,7 @@
 	[self check:akPlaySoundCheck withSetting:@"akPlaySound"];
 	[self check:akRunAppleScriptCheck withSetting:@"akRunAppleScript"];
 	[akAppleScriptTextField setStringValue:[[[NSUserDefaults standardUserDefaults] URLForKey:@"akAppleScriptURL"] path]];
+	[afkAppleScriptTextField setStringValue:[[[NSUserDefaults standardUserDefaults] URLForKey:@"afkAppleScriptURL"] path]];
 	[self updatedSelectedDevice];
 	
 	if ([monitoringEnabledCheck state] == NSOnState) {
