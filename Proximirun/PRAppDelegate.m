@@ -62,6 +62,7 @@
 	}
 }
 -(void)setDeviceIsInRange:(BOOL)iir {
+	[statusItem setTitle:iir?@"In Range":@"AFK"];
 	[currentRSSILabel setTextColor:(iir?[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]:[NSColor redColor])];
 	[self scheduleMonitor];	
 	inProgress = NO;
@@ -142,6 +143,14 @@
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:90] retain];
+	
+	[statusItem setTitle:@"-unknown-"];
+	
+	[statusItem setMenu:menu];
+	[statusItem setToolTip:@"(c) Benjie Gillam"];
+	
+	[statusItem setHighlightMode:YES];
 	// Insert code here to initialize your application
 	NSString *deviceString = [[NSUserDefaults standardUserDefaults] valueForKey:@"device"];
 	if (deviceString) {
@@ -156,17 +165,9 @@
 	[self updatedSelectedDevice];
 	
 	if ([monitoringEnabledCheck state] == NSOnState) {
-		[self monitor];
+		[self performSelector:@selector(monitor) withObject:nil afterDelay:0];
 	}
 
-	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:90] retain];
-	
-	[statusItem setTitle:@"Proximirun"];
-	
-	[statusItem setMenu:menu];
-	[statusItem setToolTip:@"(c) Benjie Gillam"];
-	
-	[statusItem setHighlightMode:YES];
 }
 #pragma mark -
 -(void)monitor {
