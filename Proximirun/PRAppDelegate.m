@@ -293,6 +293,7 @@
 - (IBAction)openPreferencesMenuItemPressed:(id)sender {
 	[preferencesWindow makeKeyAndOrderFront:self];
 	[preferencesWindow setOrderedIndex:0];
+	[NSApp activateIgnoringOtherApps:YES];
 }
 
 - (IBAction)quitMenuItemPressed:(id)sender {
