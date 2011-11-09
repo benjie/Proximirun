@@ -48,6 +48,11 @@ typedef enum {
 	BOOL inProgress;
 	
 	PRDeviceRange deviceRange;
+	
+	IBOutlet NSMenu *menu;
+	IBOutlet NSWindow *preferencesWindow;
+	
+	NSStatusItem *statusItem;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -62,4 +67,6 @@ typedef enum {
 - (IBAction)afkClearAppleScriptButtonPressed:(id)sender;
 - (void)monitor;
 -(IBAction)checkChanged:(id)sender;
+- (IBAction)openPreferencesMenuItemPressed:(id)sender;
+- (IBAction)quitMenuItemPressed:(id)sender;
 @end

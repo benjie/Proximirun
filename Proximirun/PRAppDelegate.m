@@ -158,7 +158,17 @@
 	if ([monitoringEnabledCheck state] == NSOnState) {
 		[self monitor];
 	}
+
+	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:90] retain];
+	
+	[statusItem setTitle:@"Proximirun"];
+	
+	[statusItem setMenu:menu];
+	[statusItem setToolTip:@"(c) Benjie Gillam"];
+	
+	[statusItem setHighlightMode:YES];
 }
+#pragma mark -
 -(void)monitor {
 	if (inProgress) return;
 	RELEASE_TIMER(monitorTimer);
@@ -247,5 +257,15 @@
 	} else {
 		RELEASE_TIMER(monitorTimer);
 	}
+}
+
+- (IBAction)openPreferencesMenuItemPressed:(id)sender {
+	[preferencesWindow makeKeyAndOrderFront:self];
+	[preferencesWindow setOrderedIndex:0];
+	[NSApp becomeKeyWindow];
+}
+
+- (IBAction)quitMenuItemPressed:(id)sender {
+	[NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0];
 }
 @end

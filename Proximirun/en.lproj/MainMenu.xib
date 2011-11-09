@@ -1295,6 +1295,27 @@
 				</array>
 				<string key="NSName">_NSMainMenu</string>
 			</object>
+			<object class="NSMenu" id="309482540">
+				<string key="NSTitle"/>
+				<array class="NSMutableArray" key="NSMenuItems">
+					<object class="NSMenuItem" id="500222916">
+						<reference key="NSMenu" ref="309482540"/>
+						<string key="NSTitle">Preferences...</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="35465992"/>
+						<reference key="NSMixedImage" ref="502551668"/>
+					</object>
+					<object class="NSMenuItem" id="611978682">
+						<reference key="NSMenu" ref="309482540"/>
+						<string key="NSTitle">Quit</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="35465992"/>
+						<reference key="NSMixedImage" ref="502551668"/>
+					</object>
+				</array>
+			</object>
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
@@ -2870,14 +2891,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">window</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="972006081"/>
-					</object>
-					<int key="connectionID">532</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">chosenDeviceLabel</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="475467496"/>
@@ -3147,6 +3160,38 @@
 						<reference key="destination" ref="129169973"/>
 					</object>
 					<int key="connectionID">642</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="309482540"/>
+					</object>
+					<int key="connectionID">647</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openPreferencesMenuItemPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="500222916"/>
+					</object>
+					<int key="connectionID">648</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitMenuItemPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="611978682"/>
+					</object>
+					<int key="connectionID">649</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preferencesWindow</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="972006081"/>
+					</object>
+					<int key="connectionID">651</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4579,6 +4624,25 @@
 						<reference key="object" ref="902472417"/>
 						<reference key="parent" ref="5240841"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">643</int>
+						<reference key="object" ref="309482540"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="500222916"/>
+							<reference ref="611978682"/>
+						</array>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">644</int>
+						<reference key="object" ref="500222916"/>
+						<reference key="parent" ref="309482540"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">645</int>
+						<reference key="object" ref="611978682"/>
+						<reference key="parent" ref="309482540"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4786,6 +4850,9 @@
 				<string key="600.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="601.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="610.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="643.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="644.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="645.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4802,7 +4869,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">642</int>
+			<int key="maxID">651</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4859,6 +4926,8 @@
 						<string key="akTestAppleScriptButtonPressed:">id</string>
 						<string key="checkChanged:">id</string>
 						<string key="connectNowButtonPressed:">id</string>
+						<string key="openPreferencesMenuItemPressed:">id</string>
+						<string key="quitMenuItemPressed:">id</string>
 						<string key="selectDeviceButtonPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4894,6 +4963,14 @@
 							<string key="name">connectNowButtonPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="openPreferencesMenuItemPressed:">
+							<string key="name">openPreferencesMenuItemPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitMenuItemPressed:">
+							<string key="name">quitMenuItemPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="selectDeviceButtonPressed:">
 							<string key="name">selectDeviceButtonPressed:</string>
 							<string key="candidateClassName">id</string>
@@ -4910,9 +4987,11 @@
 						<string key="connectNowButton">NSButton</string>
 						<string key="currentRSSILabel">NSTextField</string>
 						<string key="deviceActivityIndicator">NSProgressIndicator</string>
+						<string key="menu">NSMenu</string>
 						<string key="monitoringEnabledCheck">NSButton</string>
 						<string key="monitoringIntervalTextField">NSTextField</string>
 						<string key="noAFKWhenInUseCheck">NSButton</string>
+						<string key="preferencesWindow">NSWindow</string>
 						<string key="requiredRSSITextField">NSTextField</string>
 						<string key="startAtLoginCheck">NSButton</string>
 						<string key="triggerEventsOnStartCheck">NSButton</string>
@@ -4960,6 +5039,10 @@
 							<string key="name">deviceActivityIndicator</string>
 							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="menu">
+							<string key="name">menu</string>
+							<string key="candidateClassName">NSMenu</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="monitoringEnabledCheck">
 							<string key="name">monitoringEnabledCheck</string>
 							<string key="candidateClassName">NSButton</string>
@@ -4971,6 +5054,10 @@
 						<object class="IBToOneOutletInfo" key="noAFKWhenInUseCheck">
 							<string key="name">noAFKWhenInUseCheck</string>
 							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="preferencesWindow">
+							<string key="name">preferencesWindow</string>
+							<string key="candidateClassName">NSWindow</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="requiredRSSITextField">
 							<string key="name">requiredRSSITextField</string>
