@@ -14,14 +14,31 @@
 
 @synthesize window = _window;
 #pragma mark - Events
+-(void)runScriptForSetting:(NSString *)key {
+	NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:key];
+	if (url) {
+		NSDictionary *error = nil;
+		NSAppleScript *s = [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
+		if (s && !error) {
+			[s executeAndReturnError:&error];
+		}
+		RELEASE(s);
+	}
+}
 -(void)runInRangeEvents {
 	if (IS_CHECKED(akPlaySoundCheck)) {
 		[[NSSound soundNamed:@"Blow"] play];
+	}
+	if (IS_CHECKED(akRunAppleScriptCheck)) {
+		[self runScriptForSetting:@"akAppleScriptURL"];
 	}
 }
 -(void)runOutOfRangeEvents {
 	if (IS_CHECKED(afkPlaySoundCheck)) {
 		[[NSSound soundNamed:@"Basso"] play];
+	}
+	if (IS_CHECKED(afkRunAppleScriptCheck)) {
+		[self runScriptForSetting:@"afkAppleScriptURL"];
 	}
 }
 
