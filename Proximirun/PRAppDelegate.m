@@ -165,6 +165,10 @@
 	SYNC_CHECK(@"afkPlaySound",afkPlaySoundCheck);
 	SYNC_CHECK(@"afkRunAppleScript",afkRunAppleScriptCheck);
 }
+-(void)applicationWillTerminate:(NSNotification *)notification {
+	[self synchronizeSettings:YES];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	[GrowlApplicationBridge setGrowlDelegate:self];

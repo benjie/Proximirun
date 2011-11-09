@@ -2149,7 +2149,6 @@
 											<string key="NSFrame">{{382, 15}, {44, 19}}</string>
 											<reference key="NSSuperview" ref="924134904"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:2434</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="134236699">
@@ -4202,7 +4201,6 @@
 						<int key="objectID">538</int>
 						<reference key="object" ref="5240841"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="1064836706"/>
 							<reference ref="912388439"/>
 							<reference ref="498989491"/>
 							<reference ref="382243905"/>
@@ -4212,6 +4210,7 @@
 							<reference ref="475467496"/>
 							<reference ref="902472417"/>
 							<reference ref="580392373"/>
+							<reference ref="1064836706"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -4708,7 +4707,7 @@
 				<string key="354.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="371.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="371.IBWindowTemplateEditedContentRect">{{380, 496}, {480, 360}}</string>
-				<integer value="1" key="371.NSWindowTemplate.visibleAtLaunch"/>
+				<boolean value="NO" key="371.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="372.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="375.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="376.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
