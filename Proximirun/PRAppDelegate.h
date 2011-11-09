@@ -11,6 +11,12 @@
 #import <IOBluetoothUI/IOBluetoothUI.h>
 //#import <IOBluetoothUI/objc/IOBluetoothDeviceSelectorController.h>
 
+typedef enum {
+	PRDeviceRangeUnknown,
+	PRDeviceRangeInRange,
+	PRDeviceRangeOutOfRange
+} PRDeviceRange;
+
 @interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks> {
 	
 	IBOutlet NSTextField *chosenDeviceLabel;
@@ -23,14 +29,32 @@
 	IBOutlet NSTextField *monitoringIntervalTextField;
 	
 	
+	IBOutlet NSButton *akPlaySoundCheck;
+	IBOutlet NSButton *akRunAppleScriptCheck;
+	IBOutlet NSTextField *akAppleScriptTextField;
+	
+	IBOutlet NSButton *afkPlaySoundCheck;
+	IBOutlet NSButton *afkRunAppleScriptCheck;
+	IBOutlet NSTextField *afkAppleScriptTextField;
+	
+	
+	
 	IOBluetoothDevice *device;
 	NSTimer *monitorTimer;
 	BOOL inProgress;
+	
+	PRDeviceRange deviceRange;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 
 - (IBAction)selectDeviceButtonPressed:(id)sender;
 - (IBAction)connectNowButtonPressed:(id)sender;
+- (IBAction)akSelectAppleScriptButtonPressed:(id)sender;
+- (IBAction)akTestAppleScriptButtonPressed:(id)sender;
+- (IBAction)akClearAppleScriptButtonPressed:(id)sender;
+- (IBAction)afkSelectAppleScriptButtonPressed:(id)sender;
+- (IBAction)afkTestAppleScriptButtonPressed:(id)sender;
+- (IBAction)afkClearAppleScriptButtonPressed:(id)sender;
 - (void)monitor;
 @end

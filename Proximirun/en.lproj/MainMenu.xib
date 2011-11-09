@@ -1427,7 +1427,7 @@
 										<object class="NSTextField" id="912388439">
 											<reference key="NSNextResponder" ref="871881840"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{15, 67}, {87, 17}}</string>
+											<string key="NSFrame">{{15, 67}, {76, 17}}</string>
 											<reference key="NSSuperview" ref="871881840"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="580392373"/>
@@ -1436,7 +1436,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="217005680">
 												<int key="NSCellFlags">68288064</int>
 												<int key="NSCellFlags2">272630784</int>
-												<string key="NSContents">Current RSSI:</string>
+												<string key="NSContents">Latest RSSI:</string>
 												<reference key="NSSupport" ref="671238288"/>
 												<string key="NSCellIdentifier">_NS:3944</string>
 												<reference key="NSControlView" ref="912388439"/>
@@ -1875,8 +1875,8 @@
 											<string key="NSReuseIdentifierKey">_NS:903</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="550408155">
-												<int key="NSCellFlags">-1804468671</int>
-												<int key="NSCellFlags2">272630784</int>
+												<int key="NSCellFlags">-1272840639</int>
+												<int key="NSCellFlags2">71304704</int>
 												<string key="NSContents"/>
 												<reference key="NSSupport" ref="671238288"/>
 												<string key="NSCellIdentifier">_NS:903</string>
@@ -2063,8 +2063,8 @@
 											<string key="NSReuseIdentifierKey">_NS:903</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="643747973">
-												<int key="NSCellFlags">-1804468671</int>
-												<int key="NSCellFlags2">272630784</int>
+												<int key="NSCellFlags">-1272840639</int>
+												<int key="NSCellFlags2">71304704</int>
 												<string key="NSContents"/>
 												<reference key="NSSupport" ref="671238288"/>
 												<string key="NSCellIdentifier">_NS:903</string>
@@ -2947,6 +2947,102 @@
 						<reference key="destination" ref="438256476"/>
 					</object>
 					<int key="connectionID">616</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">akPlaySoundCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1037086545"/>
+					</object>
+					<int key="connectionID">617</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">akRunAppleScriptCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="134407816"/>
+					</object>
+					<int key="connectionID">618</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">akAppleScriptTextField</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="728194039"/>
+					</object>
+					<int key="connectionID">619</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">akSelectAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="609874313"/>
+					</object>
+					<int key="connectionID">620</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">akTestAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1028179428"/>
+					</object>
+					<int key="connectionID">621</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">akClearAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="566838655"/>
+					</object>
+					<int key="connectionID">622</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">afkPlaySoundCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="394587088"/>
+					</object>
+					<int key="connectionID">623</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">afkRunAppleScriptCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="645624255"/>
+					</object>
+					<int key="connectionID">624</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">afkAppleScriptTextField</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="351011805"/>
+					</object>
+					<int key="connectionID">625</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">afkSelectAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="152272805"/>
+					</object>
+					<int key="connectionID">626</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">afkTestAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="564232549"/>
+					</object>
+					<int key="connectionID">627</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">afkClearAppleScriptButtonPressed:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="850000296"/>
+					</object>
+					<int key="connectionID">628</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4210,11 +4306,11 @@
 						<reference key="object" ref="12344183"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="394587088"/>
-							<reference ref="850000296"/>
 							<reference ref="564232549"/>
 							<reference ref="152272805"/>
 							<reference ref="351011805"/>
 							<reference ref="645624255"/>
+							<reference ref="850000296"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -4602,7 +4698,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">616</int>
+			<int key="maxID">628</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4651,10 +4747,40 @@
 					<string key="className">PRAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="afkClearAppleScriptButtonPressed:">id</string>
+						<string key="afkSelectAppleScriptButtonPressed:">id</string>
+						<string key="afkTestAppleScriptButtonPressed:">id</string>
+						<string key="akClearAppleScriptButtonPressed:">id</string>
+						<string key="akSelectAppleScriptButtonPressed:">id</string>
+						<string key="akTestAppleScriptButtonPressed:">id</string>
 						<string key="connectNowButtonPressed:">id</string>
 						<string key="selectDeviceButtonPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="afkClearAppleScriptButtonPressed:">
+							<string key="name">afkClearAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="afkSelectAppleScriptButtonPressed:">
+							<string key="name">afkSelectAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="afkTestAppleScriptButtonPressed:">
+							<string key="name">afkTestAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="akClearAppleScriptButtonPressed:">
+							<string key="name">akClearAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="akSelectAppleScriptButtonPressed:">
+							<string key="name">akSelectAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="akTestAppleScriptButtonPressed:">
+							<string key="name">akTestAppleScriptButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="connectNowButtonPressed:">
 							<string key="name">connectNowButtonPressed:</string>
 							<string key="candidateClassName">id</string>
@@ -4665,6 +4791,12 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="afkAppleScriptTextField">NSTextField</string>
+						<string key="afkPlaySoundCheck">NSButton</string>
+						<string key="afkRunAppleScriptCheck">NSButton</string>
+						<string key="akAppleScriptTextField">NSTextField</string>
+						<string key="akPlaySoundCheck">NSButton</string>
+						<string key="akRunAppleScriptCheck">NSButton</string>
 						<string key="chosenDeviceLabel">NSTextField</string>
 						<string key="connectNowButton">NSButton</string>
 						<string key="currentRSSILabel">NSTextField</string>
@@ -4675,6 +4807,30 @@
 						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="afkAppleScriptTextField">
+							<string key="name">afkAppleScriptTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="afkPlaySoundCheck">
+							<string key="name">afkPlaySoundCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="afkRunAppleScriptCheck">
+							<string key="name">afkRunAppleScriptCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="akAppleScriptTextField">
+							<string key="name">akAppleScriptTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="akPlaySoundCheck">
+							<string key="name">akPlaySoundCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="akRunAppleScriptCheck">
+							<string key="name">akRunAppleScriptCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="chosenDeviceLabel">
 							<string key="name">chosenDeviceLabel</string>
 							<string key="candidateClassName">NSTextField</string>

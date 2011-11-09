@@ -8,9 +8,22 @@
 
 #import "PRAppDelegate.h"
 
+#define IS_CHECKED(X) ([X state] == NSOnState)
+
 @implementation PRAppDelegate
 
 @synthesize window = _window;
+#pragma mark - Events
+-(void)runInRangeEvents {
+	if (IS_CHECKED(akPlaySoundCheck)) {
+		[[NSSound soundNamed:@"Blow"] play];
+	}
+}
+-(void)runOutOfRangeEvents {
+	if (IS_CHECKED(afkPlaySoundCheck)) {
+		[[NSSound soundNamed:@"Basso"] play];
+	}
+}
 
 #pragma mark - Update user interface methods
 -(void)updatedSelectedDevice {
@@ -36,6 +49,15 @@
 	[self scheduleMonitor];	
 	inProgress = NO;
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
+	PRDeviceRange newRange = iir?PRDeviceRangeInRange : PRDeviceRangeOutOfRange;
+	if (newRange != deviceRange) {
+		deviceRange = newRange;
+		if (deviceRange == PRDeviceRangeInRange) {
+			[self runInRangeEvents];
+		} else {
+			[self runOutOfRangeEvents];			
+		}
+	}
 }
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
 	//BluetoothHCIRSSIValue RSSI = 127; /* Valid Range: -127 to +20 */
@@ -67,7 +89,11 @@
 {
     [super dealloc];
 }
-
+-(void)check:(NSButton *)checkBox withSetting:(NSString *)key {
+	if ([[NSUserDefaults standardUserDefaults] valueForKey:key]) {
+		[checkBox setState:([[NSUserDefaults standardUserDefaults] boolForKey:key]?NSOnState:NSOffState)];
+	}
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
@@ -75,14 +101,11 @@
 	if (deviceString) {
 		device = [[IOBluetoothDevice deviceWithAddressString:deviceString] retain];
 	}
-	NSNumber *n = [[NSUserDefaults standardUserDefaults] valueForKey:@"monitoringInterval"];
-	if (n && [n intValue] > 0) {
-		[monitoringIntervalTextField setIntValue:[n intValue]];
-	}
-	n = [[NSUserDefaults standardUserDefaults] valueForKey:@"monitoringEnabled"];
-	if (n) {
-		[monitoringEnabledCheck setState:([n boolValue]?NSOnState:NSOffState)];
-	}
+	[monitoringIntervalTextField setIntegerValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"monitoringInterval"]];
+	[self check:monitoringEnabledCheck withSetting:@"monitoringEnabled"];
+	[self check:akPlaySoundCheck withSetting:@"akPlaySound"];
+	[self check:akRunAppleScriptCheck withSetting:@"akRunAppleScript"];
+	[akAppleScriptTextField setStringValue:[[[NSUserDefaults standardUserDefaults] URLForKey:@"akAppleScriptURL"] path]];
 	[self updatedSelectedDevice];
 	
 	if ([monitoringEnabledCheck state] == NSOnState) {
@@ -122,5 +145,50 @@
 }
 - (IBAction)connectNowButtonPressed:(id)sender {
 	[self monitor];
+}
+-(NSURL *)openScriptURL {
+	NSOpenPanel *op = [NSOpenPanel openPanel];
+	NSURL *directoryURL = [[NSUserDefaults standardUserDefaults] URLForKey:@"scriptDir"];
+	if (!directoryURL) directoryURL = [NSURL URLWithString:NSHomeDirectory()];
+	[op setDirectoryURL:directoryURL];
+	[op setAllowedFileTypes:[NSArray arrayWithObject:@"scpt"]];
+	[op runModal];
+	
+	directoryURL = [op directoryURL];
+	[[NSUserDefaults standardUserDefaults] setURL:directoryURL forKey:@"scriptDir"];
+	
+	NSArray *URLs = [op URLs];
+	if (URLs && [URLs count]>0) {
+		NSURL *url = [URLs objectAtIndex:0];
+		return url;
+	}
+	return nil;
+}
+- (IBAction)akSelectAppleScriptButtonPressed:(id)sender {
+	NSURL *url = [self openScriptURL];
+	[akAppleScriptTextField setStringValue:[url path]];
+	[[NSUserDefaults standardUserDefaults] setURL:url forKey:@"akAppleScriptURL"];
+}
+- (IBAction)akTestAppleScriptButtonPressed:(id)sender {
+	[self runInRangeEvents];
+}
+- (IBAction)akClearAppleScriptButtonPressed:(id)sender {
+	[akAppleScriptTextField setStringValue:@""];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"akAppleScriptURL"];	
+}
+
+- (IBAction)afkSelectAppleScriptButtonPressed:(id)sender {
+	NSURL *url = [self openScriptURL];
+	[afkAppleScriptTextField setStringValue:[url path]];
+	[[NSUserDefaults standardUserDefaults] setURL:url forKey:@"afkAppleScriptURL"];
+}
+
+- (IBAction)afkTestAppleScriptButtonPressed:(id)sender {
+	[self runOutOfRangeEvents];
+}
+
+- (IBAction)afkClearAppleScriptButtonPressed:(id)sender {
+	[afkAppleScriptTextField setStringValue:@""];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"afkAppleScriptURL"];	
 }
 @end
