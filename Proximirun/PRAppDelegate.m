@@ -174,10 +174,9 @@
 	OSStatus s = noErr;
 	for (CFIndex i = 0, l = CFArrayGetCount(array); i<l; i++) {
 		LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(array, i);
-		CFURLRef url;
+		CFURLRef url = NULL;
 		LSSharedFileListItemResolve(item,0,&url,NULL);
-		NSLog(@"%@ - %@",item,url);	
-		if ([[[NSBundle mainBundle] bundleURL] isEqual:(NSURL *)url]) {
+		if (url && [[[NSBundle mainBundle] bundleURL] isEqual:(NSURL *)url]) {
 			found = YES;
 			enabled = YES;
 			if (trustDisplay && !IS_CHECKED(startAtLoginCheck)) {
