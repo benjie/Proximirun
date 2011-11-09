@@ -8,6 +8,7 @@
 
 #import "PRAppDelegate.h"
 #import <ApplicationServices/ApplicationServices.h>
+#import <CoreServices/CoreServices.h>
 #define IS_CHECKED(X) ([X state] == NSOnState)
 
 @implementation PRAppDelegate
@@ -155,7 +156,6 @@
 	SYNC_CHECK(@"monitoringEnabled",monitoringEnabledCheck);
 	SYNC_INT(@"monitoringInterval", monitoringIntervalTextField);
 	SYNC_CHECK(@"triggerEventsOnStart", triggerEventsOnStartCheck);
-	SYNC_CHECK(@"startAtLoginCheck", startAtLoginCheck);
 	SYNC_CHECK(@"noAFKWhenInUse", noAFKWhenInUseCheck);
 	SYNC_CHECK(@"warnIfAFKAndInUse", warnIfAFKAndInUseCheck);
 	
@@ -164,6 +164,48 @@
 	
 	SYNC_CHECK(@"afkPlaySound",afkPlaySoundCheck);
 	SYNC_CHECK(@"afkRunAppleScript",afkRunAppleScriptCheck);
+
+
+	LSSharedFileListRef fileList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+	UInt32 seed;
+	CFArrayRef array = LSSharedFileListCopySnapshot(fileList,&seed);
+	BOOL found = NO;
+	BOOL enabled = NO;
+	OSStatus s = noErr;
+	for (CFIndex i = 0, l = CFArrayGetCount(array); i<l; i++) {
+		LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(array, i);
+		CFURLRef url;
+		LSSharedFileListItemResolve(item,0,&url,NULL);
+		NSLog(@"%@ - %@",item,url);	
+		if ([[[NSBundle mainBundle] bundleURL] isEqual:(NSURL *)url]) {
+			found = YES;
+			enabled = YES;
+			if (trustDisplay && !IS_CHECKED(startAtLoginCheck)) {
+				s = LSSharedFileListItemRemove(fileList,item);
+				if (s == noErr){
+					NSLog(@"Removed");
+					enabled = NO;
+				} else {
+					NSLog(@"NOT REMOVED! %i",s);
+				}
+				break;
+			}
+		}
+	}
+	if (!found) {
+		if (trustDisplay) {
+			if (IS_CHECKED(startAtLoginCheck)) {
+				LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(fileList,kLSSharedFileListItemLast,CFSTR("Proximirun"),NULL,(CFURLRef)[[NSBundle mainBundle] bundleURL],NULL,NULL);
+				if (item) {
+					NSLog(@"Added");
+					enabled = YES;
+				} else {
+					NSLog(@"Not added!");
+				}
+			}
+		}
+	}
+	[startAtLoginCheck setState:(enabled?NSOnState:NSOffState)];
 }
 -(void)applicationWillTerminate:(NSNotification *)notification {
 	[self synchronizeSettings:YES];
@@ -291,6 +333,9 @@
 }
 
 - (IBAction)openPreferencesMenuItemPressed:(id)sender {
+	if (![preferencesWindow isVisible]) {
+		[self synchronizeSettings:NO];
+	}
 	[preferencesWindow makeKeyAndOrderFront:self];
 	[preferencesWindow setOrderedIndex:0];
 	[NSApp activateIgnoringOtherApps:YES];
@@ -298,5 +343,9 @@
 
 - (IBAction)quitMenuItemPressed:(id)sender {
 	[NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0];
+}
+#pragma mark - Window delegate
+-(void)windowWillClose:(NSNotification *)notification {
+	[self synchronizeSettings:YES];
 }
 @end

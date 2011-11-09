@@ -17,7 +17,7 @@ typedef enum {
 	PRDeviceRangeOutOfRange
 } PRDeviceRange;
 
-@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks,GrowlApplicationBridgeDelegate> {
+@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks,GrowlApplicationBridgeDelegate, NSWindowDelegate> {
 	
 	IBOutlet NSTextField *chosenDeviceLabel;
 	IBOutlet NSProgressIndicator *deviceActivityIndicator;
