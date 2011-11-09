@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//#import <IOBluetooth/IOBluetooth.h>
 #import <IOBluetoothUI/IOBluetoothUI.h>
-//#import <IOBluetoothUI/objc/IOBluetoothDeviceSelectorController.h>
+#import <Growl/Growl.h>
+
 
 typedef enum {
 	PRDeviceRangeUnknown,
@@ -17,7 +17,7 @@ typedef enum {
 	PRDeviceRangeOutOfRange
 } PRDeviceRange;
 
-@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks> {
+@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks,GrowlApplicationBridgeDelegate> {
 	
 	IBOutlet NSTextField *chosenDeviceLabel;
 	IBOutlet NSProgressIndicator *deviceActivityIndicator;
@@ -69,4 +69,5 @@ typedef enum {
 -(IBAction)checkChanged:(id)sender;
 - (IBAction)openPreferencesMenuItemPressed:(id)sender;
 - (IBAction)quitMenuItemPressed:(id)sender;
+-(NSTimeInterval)idleTime;
 @end

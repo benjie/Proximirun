@@ -7,12 +7,18 @@
 //
 
 #import "PRAppDelegate.h"
-
+#import <ApplicationServices/ApplicationServices.h>
 #define IS_CHECKED(X) ([X state] == NSOnState)
 
 @implementation PRAppDelegate
 
 @synthesize window = _window;
+#pragma mark - Growl
+- (void) growlNotificationWasClicked:(id)clickContext {
+	if ([clickContext isEqual:@"AFKWhenInUse"]) {
+		[self openPreferencesMenuItemPressed:nil];
+	}
+}
 #pragma mark - Events
 -(void)runScriptForSetting:(NSString *)key {
 	NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:key];
@@ -67,6 +73,17 @@
 	[self scheduleMonitor];	
 	inProgress = NO;
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
+	if (!iir && IS_CHECKED(noAFKWhenInUseCheck) && [self idleTime] < [monitoringIntervalTextField intValue]) {
+		if (warnIfAFKAndInUseCheck) {
+			//Growl
+			if ([GrowlApplicationBridge isGrowlRunning]) {
+				NSData *data = [NSData dataWithContentsOfFile:@"eye-150.jpg"];
+				[GrowlApplicationBridge notifyWithTitle:@"Proximirun" description:SWF(@"Device out of range, but computer active - decrease required RSSI? RSSI: %i",[currentRSSILabel integerValue]) notificationName:@"Out of range but not idle" iconData:data priority:0 isSticky:NO clickContext:@"AFKWhenInUse"];
+			}
+			
+		}
+		iir = YES;
+	}
 	PRDeviceRange newRange = iir?PRDeviceRangeInRange : PRDeviceRangeOutOfRange;
 	if (newRange != deviceRange) {
 		deviceRange = newRange;
@@ -101,6 +118,9 @@
 }
 -(void)connectionComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
 	[self checkRSSI];
+}
+-(NSTimeInterval)idleTime {
+	return CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
 }
 #pragma mark -
 - (void)dealloc
@@ -143,6 +163,7 @@
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[GrowlApplicationBridge setGrowlDelegate:self];
 	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:90] retain];
 	
 	[statusItem setTitle:@"-unknown-"];
@@ -263,7 +284,6 @@
 - (IBAction)openPreferencesMenuItemPressed:(id)sender {
 	[preferencesWindow makeKeyAndOrderFront:self];
 	[preferencesWindow setOrderedIndex:0];
-	[NSApp becomeKeyWindow];
 }
 
 - (IBAction)quitMenuItemPressed:(id)sender {
