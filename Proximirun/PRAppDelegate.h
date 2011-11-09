@@ -27,6 +27,10 @@ typedef enum {
 	
 	IBOutlet NSButton *monitoringEnabledCheck;
 	IBOutlet NSTextField *monitoringIntervalTextField;
+	IBOutlet NSButton *triggerEventsOnStartCheck;
+	IBOutlet NSButton *startAtLoginCheck;
+	IBOutlet NSButton *noAFKWhenInUseCheck;
+	IBOutlet NSButton *warnIfAFKAndInUseCheck;
 	
 	
 	IBOutlet NSButton *akPlaySoundCheck;
@@ -57,4 +61,5 @@ typedef enum {
 - (IBAction)afkTestAppleScriptButtonPressed:(id)sender;
 - (IBAction)afkClearAppleScriptButtonPressed:(id)sender;
 - (void)monitor;
+-(IBAction)checkChanged:(id)sender;
 @end

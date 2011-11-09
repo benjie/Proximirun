@@ -1467,7 +1467,7 @@
 										<object class="NSTextField" id="580392373">
 											<reference key="NSNextResponder" ref="871881840"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{137, 67}, {123, 17}}</string>
+											<string key="NSFrame">{{137, 67}, {77, 17}}</string>
 											<reference key="NSSuperview" ref="871881840"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="498989491"/>
@@ -1476,7 +1476,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="812597536">
 												<int key="NSCellFlags">68288064</int>
 												<int key="NSCellFlags2">272630784</int>
-												<string key="NSContents">127 - out of range</string>
+												<string key="NSContents">-unknown-</string>
 												<reference key="NSSupport" ref="671238288"/>
 												<string key="NSCellIdentifier">_NS:3944</string>
 												<reference key="NSControlView" ref="580392373"/>
@@ -3044,6 +3044,110 @@
 					</object>
 					<int key="connectionID">628</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="957658055"/>
+					</object>
+					<int key="connectionID">629</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="26211887"/>
+					</object>
+					<int key="connectionID">630</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="487912430"/>
+					</object>
+					<int key="connectionID">631</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="576073614"/>
+					</object>
+					<int key="connectionID">632</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="129169973"/>
+					</object>
+					<int key="connectionID">633</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1037086545"/>
+					</object>
+					<int key="connectionID">634</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="134407816"/>
+					</object>
+					<int key="connectionID">635</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="394587088"/>
+					</object>
+					<int key="connectionID">636</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="645624255"/>
+					</object>
+					<int key="connectionID">637</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">startAtLoginCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="487912430"/>
+					</object>
+					<int key="connectionID">639</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">triggerEventsOnStartCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="26211887"/>
+					</object>
+					<int key="connectionID">640</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">noAFKWhenInUseCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="576073614"/>
+					</object>
+					<int key="connectionID">641</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">warnIfAFKAndInUseCheck</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="129169973"/>
+					</object>
+					<int key="connectionID">642</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -4058,11 +4162,11 @@
 							<reference ref="498989491"/>
 							<reference ref="382243905"/>
 							<reference ref="438256476"/>
-							<reference ref="580392373"/>
 							<reference ref="169646460"/>
 							<reference ref="500618726"/>
 							<reference ref="475467496"/>
 							<reference ref="902472417"/>
+							<reference ref="580392373"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -4174,13 +4278,13 @@
 						<int key="objectID">555</int>
 						<reference key="object" ref="994872451"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="957658055"/>
 							<reference ref="300077800"/>
 							<reference ref="364047461"/>
 							<reference ref="26211887"/>
 							<reference ref="487912430"/>
 							<reference ref="576073614"/>
 							<reference ref="129169973"/>
+							<reference ref="957658055"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -4698,7 +4802,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">628</int>
+			<int key="maxID">642</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4753,6 +4857,7 @@
 						<string key="akClearAppleScriptButtonPressed:">id</string>
 						<string key="akSelectAppleScriptButtonPressed:">id</string>
 						<string key="akTestAppleScriptButtonPressed:">id</string>
+						<string key="checkChanged:">id</string>
 						<string key="connectNowButtonPressed:">id</string>
 						<string key="selectDeviceButtonPressed:">id</string>
 					</dictionary>
@@ -4781,6 +4886,10 @@
 							<string key="name">akTestAppleScriptButtonPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="checkChanged:">
+							<string key="name">checkChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="connectNowButtonPressed:">
 							<string key="name">connectNowButtonPressed:</string>
 							<string key="candidateClassName">id</string>
@@ -4803,7 +4912,11 @@
 						<string key="deviceActivityIndicator">NSProgressIndicator</string>
 						<string key="monitoringEnabledCheck">NSButton</string>
 						<string key="monitoringIntervalTextField">NSTextField</string>
+						<string key="noAFKWhenInUseCheck">NSButton</string>
 						<string key="requiredRSSITextField">NSTextField</string>
+						<string key="startAtLoginCheck">NSButton</string>
+						<string key="triggerEventsOnStartCheck">NSButton</string>
+						<string key="warnIfAFKAndInUseCheck">NSButton</string>
 						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -4855,9 +4968,25 @@
 							<string key="name">monitoringIntervalTextField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="noAFKWhenInUseCheck">
+							<string key="name">noAFKWhenInUseCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="requiredRSSITextField">
 							<string key="name">requiredRSSITextField</string>
 							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="startAtLoginCheck">
+							<string key="name">startAtLoginCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="triggerEventsOnStartCheck">
+							<string key="name">triggerEventsOnStartCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="warnIfAFKAndInUseCheck">
+							<string key="name">warnIfAFKAndInUseCheck</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="window">
 							<string key="name">window</string>

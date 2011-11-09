@@ -111,6 +111,35 @@
 		[checkBox setState:([[NSUserDefaults standardUserDefaults] boolForKey:key]?NSOnState:NSOffState)];
 	}
 }
+-(void)synchronizeSettings:(BOOL)trustDisplay {
+#define SYNC_INT(SETTING, INPUT) \
+	if (trustDisplay || ![[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
+		[[NSUserDefaults standardUserDefaults] setInteger:[INPUT integerValue] forKey:SETTING];\
+	} else if ([[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
+		[INPUT setIntegerValue:[[NSUserDefaults standardUserDefaults] integerForKey:SETTING]];\
+	}
+#define SYNC_CHECK(SETTING, INPUT) \
+	if (trustDisplay || ![[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
+		[[NSUserDefaults standardUserDefaults] setBool:IS_CHECKED(INPUT) forKey:SETTING];\
+	} else if ([[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
+		[INPUT setState:([[NSUserDefaults standardUserDefaults] boolForKey:SETTING]?NSOnState:NSOffState)];\
+	}
+	
+	SYNC_INT(@"requiredRSSI", requiredRSSITextField);
+	
+	SYNC_CHECK(@"monitoringEnabled",monitoringEnabledCheck);
+	SYNC_INT(@"monitoringInterval", monitoringIntervalTextField);
+	SYNC_CHECK(@"triggerEventsOnStart", triggerEventsOnStartCheck);
+	SYNC_CHECK(@"startAtLoginCheck", startAtLoginCheck);
+	SYNC_CHECK(@"noAFKWhenInUse", noAFKWhenInUseCheck);
+	SYNC_CHECK(@"warnIfAFKAndInUse", warnIfAFKAndInUseCheck);
+	
+	SYNC_CHECK(@"akPlaySound",akPlaySoundCheck);
+	SYNC_CHECK(@"akRunAppleScript",akRunAppleScriptCheck);
+	
+	SYNC_CHECK(@"afkPlaySound",afkPlaySoundCheck);
+	SYNC_CHECK(@"afkRunAppleScript",afkRunAppleScriptCheck);
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
@@ -118,6 +147,7 @@
 	if (deviceString) {
 		device = [[IOBluetoothDevice deviceWithAddressString:deviceString] retain];
 	}
+	[self synchronizeSettings:NO];
 	[monitoringIntervalTextField setIntegerValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"monitoringInterval"]];
 	[self check:monitoringEnabledCheck withSetting:@"monitoringEnabled"];
 	[self check:akPlaySoundCheck withSetting:@"akPlaySound"];
@@ -207,5 +237,15 @@
 - (IBAction)afkClearAppleScriptButtonPressed:(id)sender {
 	[afkAppleScriptTextField setStringValue:@""];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"afkAppleScriptURL"];	
+}
+-(IBAction)checkChanged:(id)sender {
+	[self synchronizeSettings:YES];
+	if (IS_CHECKED(monitoringEnabledCheck)) {
+		if (!monitorTimer && !inProgress) {
+			[self monitor];
+		}
+	} else {
+		RELEASE_TIMER(monitorTimer);
+	}
 }
 @end
