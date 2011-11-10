@@ -278,13 +278,9 @@
 - (IBAction)requiredRSSISliderChanged:(id)sender {
 	[requiredRSSITextField setIntegerValue:[requiredRSSISlider integerValue]];
 }
-
-- (IBAction)selectDeviceButtonPressed:(id)sender {
-	IOBluetoothDeviceSelectorController *dsc = [IOBluetoothDeviceSelectorController deviceSelector];
-	[dsc runModal];
-	
-	
+-(void)modalSheetDidEnd {
 	NSArray *results = [dsc getResults];
+	RELEASE(dsc);
 	if (!results || [results count] == 0) {
 		return;
 	}
@@ -296,7 +292,15 @@
 	[self synchronizeSettings:YES];
 	if (IS_CHECKED(monitoringEnabledCheck)) {
 		[self monitor];
-	}
+	}	
+}
+
+- (IBAction)selectDeviceButtonPressed:(id)sender {
+	dsc = [[IOBluetoothDeviceSelectorController deviceSelector] retain];
+	[dsc beginSheetModalForWindow:preferencesWindow modalDelegate:self didEndSelector:@selector(modalSheetDidEnd) contextInfo:NULL];
+	//[dsc runModal];
+	
+	
 }
 - (IBAction)connectNowButtonPressed:(id)sender {
 	[self monitor];

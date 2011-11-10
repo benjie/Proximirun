@@ -44,6 +44,7 @@ typedef enum {
 	IBOutlet NSTextField *afkAppleScriptTextField;
 	
 	
+	IOBluetoothDeviceSelectorController *dsc;
 	
 	IOBluetoothDevice *device;
 	NSTimer *monitorTimer;
