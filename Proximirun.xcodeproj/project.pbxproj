@@ -20,6 +20,7 @@
 		1444A5C1146AB0A900D0072E /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1444A5C0146AB0A900D0072E /* Growl.framework */; };
 		1444A5C2146AB0BD00D0072E /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1444A5C0146AB0A900D0072E /* Growl.framework */; };
 		1444A5C4146AC93F00D0072E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1444A5C3146AC93F00D0072E /* CoreServices.framework */; };
+		1444A5C6146BF39000D0072E /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1444A5C5146BF39000D0072E /* OSAKit.framework */; };
 		14CF2D34146A9B3F0067015D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14CF2D33146A9B3F0067015D /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		1444A5BE146AAF3900D0072E /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		1444A5C0146AB0A900D0072E /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		1444A5C3146AC93F00D0072E /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		1444A5C5146BF39000D0072E /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = System/Library/Frameworks/OSAKit.framework; sourceTree = SDKROOT; };
 		14CF2D33146A9B3F0067015D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1444A5C6146BF39000D0072E /* OSAKit.framework in Frameworks */,
 				1444A5C4146AC93F00D0072E /* CoreServices.framework in Frameworks */,
 				14CF2D34146A9B3F0067015D /* ApplicationServices.framework in Frameworks */,
 				143F340F1469746E004D2F8A /* IOBluetooth.framework in Frameworks */,
@@ -79,6 +82,7 @@
 		143F33E01468323D004D2F8A = {
 			isa = PBXGroup;
 			children = (
+				1444A5C5146BF39000D0072E /* OSAKit.framework */,
 				1444A5C3146AC93F00D0072E /* CoreServices.framework */,
 				1444A5BE146AAF3900D0072E /* Growl Registration Ticket.growlRegDict */,
 				1444A5B1146AAA2A00D0072E /* eye-150.jpg */,

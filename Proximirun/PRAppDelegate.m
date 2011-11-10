@@ -37,7 +37,8 @@
 		[[NSSound soundNamed:@"Blow"] play];
 	}
 	if (IS_CHECKED(akRunAppleScriptCheck)) {
-		[self runScriptForSetting:@"akAppleScriptURL"];
+		[akScriptController runScript:self];
+		//[self runScriptForSetting:@"akAppleScriptURL"];
 	}
 }
 -(void)runOutOfRangeEvents {
@@ -185,6 +186,14 @@
 	SYNC_CHECK(@"afkPlaySound",afkPlaySoundCheck);
 	SYNC_CHECK(@"afkRunAppleScript",afkRunAppleScriptCheck);
 
+	
+	
+	if (![[NSUserDefaults standardUserDefaults] valueForKey:@"akScript"]) {
+		//[akScriptController setScript:[[[OSAScript alloc] initWithSource:] autorelease]];
+		//[akScriptView setString:];
+		[akScriptView setSource:@"try\ntell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\nend try\ntry\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell\nend try"];
+		[akScriptController compileScript:self];
+	}
 
 	LSSharedFileListRef fileList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
 	UInt32 seed;

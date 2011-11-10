@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOBluetoothUI/IOBluetoothUI.h>
 #import <Growl/Growl.h>
-
+#import <OSAKit/OSAKit.h>
 
 typedef enum {
 	PRDeviceRangeUnknown,
@@ -34,6 +34,8 @@ typedef enum {
 	IBOutlet NSButton *noAFKWhenInUseCheck;
 	IBOutlet NSButton *warnIfAFKAndInUseCheck;
 	
+	IBOutlet OSAScriptController *akScriptController;
+	IBOutlet OSAScriptView *akScriptView;
 	
 	IBOutlet NSButton *akPlaySoundCheck;
 	IBOutlet NSButton *akRunAppleScriptCheck;
