@@ -22,7 +22,9 @@ typedef enum {
 	IBOutlet NSTextField *chosenDeviceLabel;
 	IBOutlet NSProgressIndicator *deviceActivityIndicator;
 	IBOutlet NSTextField *currentRSSILabel;
+	IBOutlet NSSlider *currentRSSISlider;
 	IBOutlet NSTextField *requiredRSSITextField;
+	IBOutlet NSSlider *requiredRSSISlider;
 	IBOutlet NSButton *connectNowButton;
 	
 	IBOutlet NSButton *monitoringEnabledCheck;
@@ -48,6 +50,7 @@ typedef enum {
 	BOOL inProgress;
 	int retry;
 	
+	BluetoothHCIRSSIValue currentRSSI;
 	PRDeviceRange deviceRange;
 	
 	IBOutlet NSMenu *menu;
@@ -58,6 +61,7 @@ typedef enum {
 
 @property (assign) IBOutlet NSWindow *window;
 
+- (IBAction)requiredRSSISliderChanged:(id)sender;
 - (IBAction)selectDeviceButtonPressed:(id)sender;
 - (IBAction)connectNowButtonPressed:(id)sender;
 - (IBAction)akSelectAppleScriptButtonPressed:(id)sender;

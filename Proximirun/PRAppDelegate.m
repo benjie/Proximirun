@@ -82,7 +82,7 @@
 			//Growl
 			if ([GrowlApplicationBridge isGrowlRunning]) {
 				NSData *data = [NSData dataWithContentsOfFile:@"eye-150.jpg"];
-				[GrowlApplicationBridge notifyWithTitle:@"Proximirun" description:SWF(@"Device out of range, but computer active - decrease required RSSI? RSSI: %i",[currentRSSILabel integerValue]) notificationName:@"Out of range but not idle" iconData:data priority:0 isSticky:NO clickContext:@"AFKWhenInUse"];
+				[GrowlApplicationBridge notifyWithTitle:@"Proximirun" description:SWF(@"Device out of range, but computer active - decrease required RSSI? RSSI: %i",currentRSSI) notificationName:@"Out of range but not idle" iconData:data priority:0 isSticky:NO clickContext:@"AFKWhenInUse"];
 			}
 			
 		}
@@ -104,16 +104,18 @@
 }
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
 	//BluetoothHCIRSSIValue Valid Range: -127 to +20
+	currentRSSI = RSSI;
+	[currentRSSILabel setIntValue:RSSI>20?-128:RSSI];
+	[currentRSSISlider setIntValue:RSSI>20?-128:RSSI];
 	if (RSSI > 20) {
 		if (retry < 2) {
-			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - retrying",RSSI]];
 			[self performSelector:@selector(connectToDevice) withObject:nil afterDelay:1];
 			return;
 		} else {
-			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
+			//Nothing
 		}
 	} else {
-		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i",RSSI]];
+		//Nothing
 	}
 	[self setDeviceIsInRange:(RSSI >= [requiredRSSITextField intValue] && RSSI <= 20)];
 }
@@ -168,7 +170,8 @@
 		[INPUT setState:([[NSUserDefaults standardUserDefaults] boolForKey:SETTING]?NSOnState:NSOffState)];\
 	}
 	
-	SYNC_INT(@"requiredRSSI", requiredRSSITextField);
+	SYNC_INT(@"requiredRSSI", requiredRSSISlider);
+	[requiredRSSITextField setIntegerValue:[requiredRSSISlider integerValue]];
 	
 	SYNC_CHECK(@"monitoringEnabled",monitoringEnabledCheck);
 	SYNC_INT(@"monitoringInterval", monitoringIntervalTextField);
@@ -267,6 +270,10 @@
 	} else {
 		[self scheduleMonitor];
 	}
+}
+
+- (IBAction)requiredRSSISliderChanged:(id)sender {
+	[requiredRSSITextField setIntegerValue:[requiredRSSISlider integerValue]];
 }
 
 - (IBAction)selectDeviceButtonPressed:(id)sender {
