@@ -46,7 +46,8 @@
 		[[NSSound soundNamed:@"Basso"] play];
 	}
 	if (IS_CHECKED(afkRunAppleScriptCheck)) {
-		[self runScriptForSetting:@"afkAppleScriptURL"];
+		[afkScriptController runScript:self];
+		//[self runScriptForSetting:@"afkAppleScriptURL"];
 	}
 }
 
@@ -170,6 +171,48 @@
 	}
 	return nil;
 }
+-(NSURL *)akScriptURL {
+	return [[self userDataURL] URLByAppendingPathComponent:@"akScript.scpt"];
+}
+-(NSURL *)afkScriptURL {
+	return [[self userDataURL] URLByAppendingPathComponent:@"afkScript.scpt"];
+}
+-(void)loadScripts {
+	OSAScript *script;
+#define LOAD_SCRIPT(URL,CONTROLLER,VIEW,DEFAULT) \
+	if (URL) {\
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[URL path]]) {\
+			script = [[OSAScript alloc] initWithContentsOfURL:URL error:nil];\
+		} else {\
+			script = [[OSAScript alloc] initWithSource:DEFAULT];\
+			[script writeToURL:URL ofType:@"scpt" error:nil];\
+		}\
+		if (script) {\
+			[CONTROLLER setScript:script];\
+		}\
+		[VIEW setSource:[script source]];\
+		RELEASE(script);\
+	}\
+	[CONTROLLER compileScript:self];
+
+	LOAD_SCRIPT([self akScriptURL],akScriptController,akScriptView,@"tell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell");
+	LOAD_SCRIPT([self afkScriptURL],afkScriptController,afkScriptView,@"tell application \"Skype\"\nsend command \"SET USERSTATUS AWAY\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Basso.aiff'\"\nend tell");
+
+}
+-(void)saveScripts {
+	if (akScriptViewIsDirty) {
+		OSAScript *script = [[OSAScript alloc] initWithSource:[akScriptView source]];
+		[script writeToURL:[self akScriptURL] ofType:@"scpt" error:nil];	
+		RELEASE(script);
+		akScriptViewIsDirty = NO;
+	}
+	if (afkScriptViewIsDirty) {
+		OSAScript *script = [[OSAScript alloc] initWithSource:[afkScriptView source]];
+		[script writeToURL:[self afkScriptURL] ofType:@"scpt" error:nil];	
+		RELEASE(script);
+		afkScriptViewIsDirty = NO;
+	}
+}
 -(void)synchronizeSettings:(BOOL)trustDisplay {
 #define SYNC_INT(SETTING, INPUT) \
 	if (trustDisplay || ![[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
@@ -203,22 +246,11 @@
 	
 	//[akScriptController setScript:[[[OSAScript alloc] initWithSource:] autorelease]];
 	//[akScriptView setString:];
-	NSURL *akScriptURL = [[self userDataURL] URLByAppendingPathComponent:@"akScript.scpt"];
-	OSAScript *script;
-	if (akScriptURL) {
-		if ([[NSFileManager defaultManager] fileExistsAtPath:[akScriptURL path]]) {
-			script = [[OSAScript alloc] initWithContentsOfURL:akScriptURL error:nil];
-		} else {
-			script = [[OSAScript alloc] initWithSource:@"tell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell"];
-			[script writeToURL:akScriptURL ofType:@"scpt" error:nil];
-		}
-		if (script) {
-			[akScriptController setScript:script];
-		}
-		[akScriptView setSource:[script source]];
-		RELEASE(script);
+	if (trustDisplay) {
+		[self saveScripts];
+	} else {
+		[self loadScripts];
 	}
-	[akScriptController compileScript:self];
 
 	LSSharedFileListRef fileList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
 	UInt32 seed;
@@ -371,6 +403,38 @@
 }
 
 - (IBAction)akOpenInAppleScriptEditorButtonPressed:(id)sender {
+	//alreadyRunningApplications = [[[NSWorkspace sharedWorkspace] runningApplications] retain];
+	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[self akScriptURL]] withAppBundleIdentifier:kEditorIdentifier options:NSWorkspaceLaunchWithoutAddingToRecents/*|NSWorkspaceLaunchNewInstance*/ additionalEventParamDescriptor:nil launchIdentifiers:NULL];
+	//[self performSelector:@selector(findNewApp) withObject:nil afterDelay:0];
+}
+
+- (IBAction)afkOpenInAppleScriptEditorButtonPressed:(id)sender {
+	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[self afkScriptURL]] withAppBundleIdentifier:kEditorIdentifier options:NSWorkspaceLaunchWithoutAddingToRecents/*|NSWorkspaceLaunchNewInstance*/ additionalEventParamDescriptor:nil launchIdentifiers:NULL];
+}
+-(void)findNewApp {
+	NSMutableArray *nowRunningApplications = [NSMutableArray arrayWithArray:[[NSWorkspace sharedWorkspace] runningApplications]];
+	for (NSInteger i = [nowRunningApplications count]-1; i>=0; i--) {
+		NSRunningApplication *app = [nowRunningApplications objectAtIndex:i];
+		if ([alreadyRunningApplications containsObject:app]) {
+			[nowRunningApplications removeObjectAtIndex:i];
+		} else if (![[app bundleIdentifier] isEqualToString:kEditorIdentifier]) {
+			[nowRunningApplications removeObjectAtIndex:i];
+		}
+	}
+	RELEASE(alreadyRunningApplications);
+	if ([nowRunningApplications count] == 1) {
+		NSRunningApplication *app = [nowRunningApplications objectAtIndex:0];
+		NSLog(@"Found app: %@",app);
+	} else {
+		[NSAlert alertWithMessageText:@"Could not locate spawned external editor" defaultButton:@"Okay" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%i matching applications were found",[nowRunningApplications count]];
+	}
+	/*
+	if ([[NSWorkspace sharedWorkspace] launchApplication:@"AppleScript Editor"]) {
+		NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier:];
+		if (apps && [apps count]) {
+			NSRunningApplication *app = [apps objectAtIndex:0];
+		}
+	}*/
 	
 }
 
@@ -414,5 +478,23 @@
 #pragma mark - Window delegate
 -(void)windowWillClose:(NSNotification *)notification {
 	[self synchronizeSettings:YES];
+}
+-(void)windowDidBecomeKey:(NSNotification *)notification {
+	[self loadScripts];
+	[akScriptController compileScript:self];
+	NSLog(@"Key");
+}
+-(void)windowDidResignKey:(NSNotification *)notification {
+	[self saveScripts];
+	NSLog(@"Resign key");
+	[self synchronizeSettings:YES];
+}
+- (BOOL)textView:(NSTextView *)textView shouldChangeTextInRanges:(NSArray *)affectedRanges replacementStrings:(NSArray *)replacementStrings {
+	if (textView == akScriptView) {
+		akScriptViewIsDirty = YES;
+	} else if (textView == afkScriptView) {
+		afkScriptViewIsDirty = YES;
+	}
+	return YES;
 }
 @end

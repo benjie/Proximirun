@@ -10,14 +10,14 @@
 #import <IOBluetoothUI/IOBluetoothUI.h>
 #import <Growl/Growl.h>
 #import <OSAKit/OSAKit.h>
-
+#define kEditorIdentifier @"com.apple.ScriptEditor2"
 typedef enum {
 	PRDeviceRangeUnknown,
 	PRDeviceRangeInRange,
 	PRDeviceRangeOutOfRange
 } PRDeviceRange;
 
-@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks,GrowlApplicationBridgeDelegate, NSWindowDelegate> {
+@interface PRAppDelegate : NSObject <NSApplicationDelegate,IOBluetoothDeviceAsyncCallbacks,GrowlApplicationBridgeDelegate, NSWindowDelegate, NSTextViewDelegate> {
 	
 	IBOutlet NSTextField *chosenDeviceLabel;
 	IBOutlet NSProgressIndicator *deviceActivityIndicator;
@@ -36,6 +36,11 @@ typedef enum {
 	
 	IBOutlet OSAScriptController *akScriptController;
 	IBOutlet OSAScriptView *akScriptView;
+	BOOL akScriptViewIsDirty;
+	
+	IBOutlet OSAScriptController *afkScriptController;
+	IBOutlet OSAScriptView *afkScriptView;
+	BOOL afkScriptViewIsDirty;
 	
 	IBOutlet NSButton *akPlaySoundCheck;
 	IBOutlet NSButton *akRunAppleScriptCheck;
@@ -60,22 +65,22 @@ typedef enum {
 	IBOutlet NSWindow *preferencesWindow;
 	
 	NSStatusItem *statusItem;
+	
+	
+	NSArray *alreadyRunningApplications;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 
 -(NSURL *)userDataURL;
+-(NSURL *)akScriptURL;
+-(NSURL *)afkScriptURL;
 
 - (IBAction)requiredRSSISliderChanged:(id)sender;
 - (IBAction)selectDeviceButtonPressed:(id)sender;
 - (IBAction)connectNowButtonPressed:(id)sender;
-- (IBAction)akSelectAppleScriptButtonPressed:(id)sender;
-- (IBAction)akTestAppleScriptButtonPressed:(id)sender;
-- (IBAction)akClearAppleScriptButtonPressed:(id)sender;
 - (IBAction)akOpenInAppleScriptEditorButtonPressed:(id)sender;
-- (IBAction)afkSelectAppleScriptButtonPressed:(id)sender;
-- (IBAction)afkTestAppleScriptButtonPressed:(id)sender;
-- (IBAction)afkClearAppleScriptButtonPressed:(id)sender;
+- (IBAction)afkOpenInAppleScriptEditorButtonPressed:(id)sender;
 - (void)monitor;
 -(IBAction)checkChanged:(id)sender;
 - (IBAction)openPreferencesMenuItemPressed:(id)sender;
