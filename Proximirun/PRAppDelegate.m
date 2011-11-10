@@ -109,7 +109,9 @@
 	[self setDeviceIsInRange:(RSSI >= [requiredRSSITextField intValue] && RSSI <= 20)];
 }
 -(void)checkRSSI {
-	[self actOnRSSI:[device rawRSSI]];
+	BluetoothHCIRSSIValue RSSI = [device rawRSSI];
+	[device closeConnection];
+	[self actOnRSSI:RSSI];
 }
 - (void)remoteNameRequestComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
 	
@@ -119,6 +121,16 @@
 }
 -(void)connectionComplete:(IOBluetoothDevice *)device status:(IOReturn)status {
 	[self checkRSSI];
+}
+-(void)connectToDevice {
+	inProgress = YES;
+	[deviceActivityIndicator startAnimation:nil];
+	if ([device isConnected] || [device openConnection:self] != kIOReturnSuccess) {
+		// Couldn't issue connect command, so skip to next stage.
+		[self checkRSSI];
+	} else {
+		// Fine, continue asynchronously.
+	}
 }
 -(NSTimeInterval)idleTime {
 	return CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
@@ -240,15 +252,9 @@
 -(void)monitor {
 	if (inProgress) return;
 	RELEASE_TIMER(monitorTimer);
+	retry = 0;
 	if (device) {
-		inProgress = YES;
-		[deviceActivityIndicator startAnimation:nil];
-		if ([device isConnected] || [device openConnection:self] != kIOReturnSuccess) {
-			// Couldn't issue connect command, so skip to next stage.
-			[self checkRSSI];
-		} else {
-			// Fine, continue asynchronously.
-		}
+		[self connectToDevice];
 	} else {
 		[self scheduleMonitor];
 	}

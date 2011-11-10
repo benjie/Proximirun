@@ -46,6 +46,7 @@ typedef enum {
 	IOBluetoothDevice *device;
 	NSTimer *monitorTimer;
 	BOOL inProgress;
+	int retry;
 	
 	PRDeviceRange deviceRange;
 	
