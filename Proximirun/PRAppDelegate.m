@@ -245,6 +245,9 @@
 	NSString *deviceString = [[NSUserDefaults standardUserDefaults] valueForKey:@"device"];
 	if (deviceString) {
 		device = [[IOBluetoothDevice deviceWithAddressString:deviceString] retain];
+		if (device) {
+			[connectNowButton setEnabled:YES];
+		}
 	}
 	[self synchronizeSettings:NO];
 	[monitoringIntervalTextField setIntegerValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"monitoringInterval"]];
@@ -287,8 +290,13 @@
 	}
 	RELEASE(device);
 	device = [[results objectAtIndex:0] retain];
+	[connectNowButton setEnabled:YES];
 	[self updatedSelectedDevice];
 	[[NSUserDefaults standardUserDefaults] setValue:[device addressString] forKey:@"device"];
+	[self synchronizeSettings:YES];
+	if (IS_CHECKED(monitoringEnabledCheck)) {
+		[self monitor];
+	}
 }
 - (IBAction)connectNowButtonPressed:(id)sender {
 	[self monitor];

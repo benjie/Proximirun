@@ -1433,7 +1433,7 @@
 											<string key="NSReuseIdentifierKey">_NS:687</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="786386649">
-												<int key="NSCellFlags">67239424</int>
+												<int key="NSCellFlags">604110336</int>
 												<int key="NSCellFlags2">134217728</int>
 												<string key="NSContents">Connect now</string>
 												<reference key="NSSupport" ref="671238288"/>
@@ -2210,7 +2210,6 @@
 											<string key="NSFrame">{{382, 15}, {44, 19}}</string>
 											<reference key="NSSuperview" ref="924134904"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:2434</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="134236699">
@@ -4302,11 +4301,11 @@
 							<reference ref="475467496"/>
 							<reference ref="902472417"/>
 							<reference ref="1064836706"/>
-							<reference ref="500618726"/>
 							<reference ref="169646460"/>
 							<reference ref="580392373"/>
 							<reference ref="98187833"/>
 							<reference ref="414214807"/>
+							<reference ref="500618726"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
