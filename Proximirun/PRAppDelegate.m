@@ -64,14 +64,17 @@
 -(void)scheduleMonitor {
 	if (!monitorTimer && [monitoringEnabledCheck state] == NSOnState) {
 		int interval = [monitoringIntervalTextField intValue];
+		if (deviceRange == PRDeviceRangeInRange) {
+			interval -= pow(2, retry);
+		}
 		if (interval < 1) interval = 1;
 		monitorTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(monitor) userInfo:nil repeats:NO] retain];
 	}
 }
 -(void)setDeviceIsInRange:(BOOL)iir {
 	[currentRSSILabel setTextColor:(iir?[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]:[NSColor redColor])];
-	[self scheduleMonitor];	
 	inProgress = NO;
+	[self scheduleMonitor];	
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
 	BOOL overridden = NO;
 	if (!iir && [self idleTime] < [monitoringIntervalTextField intValue]) {
@@ -102,7 +105,13 @@
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
 	//BluetoothHCIRSSIValue Valid Range: -127 to +20
 	if (RSSI > 20) {
-		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
+		if (retry < 5) {
+			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - retrying",RSSI]];
+			[self performSelector:@selector(connectToDevice) withObject:nil afterDelay:pow(2, ++retry)];
+			return;
+		} else {
+			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
+		}
 	} else {
 		[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i",RSSI]];
 	}
