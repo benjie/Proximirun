@@ -65,7 +65,7 @@
 	if (!monitorTimer && [monitoringEnabledCheck state] == NSOnState) {
 		int interval = [monitoringIntervalTextField intValue];
 		if (deviceRange == PRDeviceRangeInRange) {
-			interval -= pow(2, retry);
+			interval -= (2*retry);
 		}
 		if (interval < 1) interval = 1;
 		monitorTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(monitor) userInfo:nil repeats:NO] retain];
@@ -105,9 +105,9 @@
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
 	//BluetoothHCIRSSIValue Valid Range: -127 to +20
 	if (RSSI > 20) {
-		if (retry < 5) {
+		if (retry < 2) {
 			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - retrying",RSSI]];
-			[self performSelector:@selector(connectToDevice) withObject:nil afterDelay:pow(2, ++retry)];
+			[self performSelector:@selector(connectToDevice) withObject:nil afterDelay:1];
 			return;
 		} else {
 			[currentRSSILabel setStringValue:[NSString stringWithFormat:@"%i - out of range",RSSI]];
