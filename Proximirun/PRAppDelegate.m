@@ -157,6 +157,19 @@
 		[checkBox setState:([[NSUserDefaults standardUserDefaults] boolForKey:key]?NSOnState:NSOffState)];
 	}
 }
+-(NSURL *)userDataURL {
+	NSArray *folders = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	NSError *error;
+	if (folders && [folders count]) {
+		NSString *folder = [[folders objectAtIndex:0] stringByAppendingPathComponent:@"Proximirun"];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:folder] || [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:NO attributes:nil error:&error]) {
+			return [NSURL fileURLWithPath:folder];
+		} else {
+			NSLog(@"Error occurred creating user data folder: %@",error);
+		}
+	}
+	return nil;
+}
 -(void)synchronizeSettings:(BOOL)trustDisplay {
 #define SYNC_INT(SETTING, INPUT) \
 	if (trustDisplay || ![[NSUserDefaults standardUserDefaults] valueForKey:SETTING]) {\
@@ -188,12 +201,24 @@
 
 	
 	
-	if (![[NSUserDefaults standardUserDefaults] valueForKey:@"akScript"]) {
-		//[akScriptController setScript:[[[OSAScript alloc] initWithSource:] autorelease]];
-		//[akScriptView setString:];
-		[akScriptView setSource:@"try\ntell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\nend try\ntry\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell\nend try"];
-		[akScriptController compileScript:self];
+	//[akScriptController setScript:[[[OSAScript alloc] initWithSource:] autorelease]];
+	//[akScriptView setString:];
+	NSURL *akScriptURL = [[self userDataURL] URLByAppendingPathComponent:@"akScript.scpt"];
+	OSAScript *script;
+	if (akScriptURL) {
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[akScriptURL path]]) {
+			script = [[OSAScript alloc] initWithContentsOfURL:akScriptURL error:nil];
+		} else {
+			script = [[OSAScript alloc] initWithSource:@"tell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell"];
+			[script writeToURL:akScriptURL ofType:@"scpt" error:nil];
+		}
+		if (script) {
+			[akScriptController setScript:script];
+		}
+		[akScriptView setSource:[script source]];
+		RELEASE(script);
 	}
+	[akScriptController compileScript:self];
 
 	LSSharedFileListRef fileList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
 	UInt32 seed;
@@ -343,6 +368,10 @@
 - (IBAction)akClearAppleScriptButtonPressed:(id)sender {
 	[akAppleScriptTextField setStringValue:@""];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"akAppleScriptURL"];	
+}
+
+- (IBAction)akOpenInAppleScriptEditorButtonPressed:(id)sender {
+	
 }
 
 - (IBAction)afkSelectAppleScriptButtonPressed:(id)sender {

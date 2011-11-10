@@ -64,12 +64,15 @@ typedef enum {
 
 @property (assign) IBOutlet NSWindow *window;
 
+-(NSURL *)userDataURL;
+
 - (IBAction)requiredRSSISliderChanged:(id)sender;
 - (IBAction)selectDeviceButtonPressed:(id)sender;
 - (IBAction)connectNowButtonPressed:(id)sender;
 - (IBAction)akSelectAppleScriptButtonPressed:(id)sender;
 - (IBAction)akTestAppleScriptButtonPressed:(id)sender;
 - (IBAction)akClearAppleScriptButtonPressed:(id)sender;
+- (IBAction)akOpenInAppleScriptEditorButtonPressed:(id)sender;
 - (IBAction)afkSelectAppleScriptButtonPressed:(id)sender;
 - (IBAction)afkTestAppleScriptButtonPressed:(id)sender;
 - (IBAction)afkClearAppleScriptButtonPressed:(id)sender;
