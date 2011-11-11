@@ -25,6 +25,7 @@ typedef enum {
 	IBOutlet NSSlider *currentRSSISlider;
 	IBOutlet NSTextField *requiredRSSITextField;
 	IBOutlet NSSlider *requiredRSSISlider;
+	IBOutlet NSButton *selectDeviceButton;
 	IBOutlet NSButton *connectNowButton;
 	
 	IBOutlet NSButton *monitoringEnabledCheck;
@@ -44,11 +45,9 @@ typedef enum {
 	
 	IBOutlet NSButton *akPlaySoundCheck;
 	IBOutlet NSButton *akRunAppleScriptCheck;
-	IBOutlet NSTextField *akAppleScriptTextField;
 	
 	IBOutlet NSButton *afkPlaySoundCheck;
 	IBOutlet NSButton *afkRunAppleScriptCheck;
-	IBOutlet NSTextField *afkAppleScriptTextField;
 	
 	
 	IOBluetoothDeviceSelectorController *dsc;

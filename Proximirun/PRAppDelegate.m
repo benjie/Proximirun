@@ -21,24 +21,12 @@
 	}
 }
 #pragma mark - Events
--(void)runScriptForSetting:(NSString *)key {
-	NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:key];
-	if (url) {
-		NSDictionary *error = nil;
-		NSAppleScript *s = [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
-		if (s && !error) {
-			[s executeAndReturnError:&error];
-		}
-		RELEASE(s);
-	}
-}
 -(void)runInRangeEvents {
 	if (IS_CHECKED(akPlaySoundCheck)) {
 		[[NSSound soundNamed:@"Blow"] play];
 	}
 	if (IS_CHECKED(akRunAppleScriptCheck)) {
 		[akScriptController runScript:self];
-		//[self runScriptForSetting:@"akAppleScriptURL"];
 	}
 }
 -(void)runOutOfRangeEvents {
@@ -47,16 +35,18 @@
 	}
 	if (IS_CHECKED(afkRunAppleScriptCheck)) {
 		[afkScriptController runScript:self];
-		//[self runScriptForSetting:@"afkAppleScriptURL"];
 	}
 }
 
 #pragma mark - Update user interface methods
 -(void)updatedSelectedDevice {
 	if (device) {
+		[selectDeviceButton setKeyEquivalent:@""];
+		[statusItem setTitle:@"-unknown-"];
 		[chosenDeviceLabel setStringValue:SWF(@"%@ [%@]",[device name],[device addressString])];
 		[connectNowButton setEnabled:YES];
 	} else {
+		[statusItem setTitle:@"No device"];
 		[chosenDeviceLabel setStringValue:@"Press 'select device' below to select device"];
 		[connectNowButton setEnabled:NO];
 	}
@@ -195,8 +185,9 @@
 	}\
 	[CONTROLLER compileScript:self];
 
-	LOAD_SCRIPT([self akScriptURL],akScriptController,akScriptView,@"tell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell");
-	LOAD_SCRIPT([self afkScriptURL],afkScriptController,afkScriptView,@"tell application \"Skype\"\nsend command \"SET USERSTATUS AWAY\" script name \"Proximirun\"\nend tell\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Basso.aiff'\"\nend tell");
+	NSString *air = @"on IsRunning(appName)\ntell application \"System Events\" to set result to exists (processes where name is appName)\nreturn result\nend IsRunning";
+	LOAD_SCRIPT([self akScriptURL],akScriptController,akScriptView,SWF(@"if IsRunning(\"Skype\") then\ntell application \"Skype\"\nsend command \"SET USERSTATUS ONLINE\" script name \"Proximirun\"\nend tell\nend if\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Blow.aiff'\"\nend tell\n%@",air));
+	LOAD_SCRIPT([self afkScriptURL],afkScriptController,afkScriptView,SWF(@"if IsRunning(\"Skype\") then\ntell application \"Skype\"\nsend command \"SET USERSTATUS AWAY\" script name \"Proximirun\"\nend tell\nend if\ntell application \"Finder\"\ndo shell script \"afplay '/System/Library/Sounds/Basso.aiff'\"\nend tell\n%@",air));
 
 }
 -(void)saveScripts {
@@ -298,6 +289,8 @@
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	// Uncomment next line to clear settings.
+	//[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 	[GrowlApplicationBridge setGrowlDelegate:self];
 	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:90] retain];
 	
@@ -320,12 +313,14 @@
 	[self check:monitoringEnabledCheck withSetting:@"monitoringEnabled"];
 	[self check:akPlaySoundCheck withSetting:@"akPlaySound"];
 	[self check:akRunAppleScriptCheck withSetting:@"akRunAppleScript"];
-	[akAppleScriptTextField setStringValue:[[[NSUserDefaults standardUserDefaults] URLForKey:@"akAppleScriptURL"] path]];
-	[afkAppleScriptTextField setStringValue:[[[NSUserDefaults standardUserDefaults] URLForKey:@"afkAppleScriptURL"] path]];
 	[self updatedSelectedDevice];
 	
 	if ([monitoringEnabledCheck state] == NSOnState) {
 		[self performSelector:@selector(monitor) withObject:nil afterDelay:0];
+	}
+	if (!device) {
+		[self openPreferencesMenuItemPressed:self];
+		[selectDeviceButton becomeFirstResponder];
 	}
 
 }
@@ -389,18 +384,6 @@
 	}
 	return nil;
 }
-- (IBAction)akSelectAppleScriptButtonPressed:(id)sender {
-	NSURL *url = [self openScriptURL];
-	[akAppleScriptTextField setStringValue:[url path]];
-	[[NSUserDefaults standardUserDefaults] setURL:url forKey:@"akAppleScriptURL"];
-}
-- (IBAction)akTestAppleScriptButtonPressed:(id)sender {
-	[self runInRangeEvents];
-}
-- (IBAction)akClearAppleScriptButtonPressed:(id)sender {
-	[akAppleScriptTextField setStringValue:@""];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"akAppleScriptURL"];	
-}
 
 - (IBAction)akOpenInAppleScriptEditorButtonPressed:(id)sender {
 	//alreadyRunningApplications = [[[NSWorkspace sharedWorkspace] runningApplications] retain];
@@ -438,20 +421,6 @@
 	
 }
 
-- (IBAction)afkSelectAppleScriptButtonPressed:(id)sender {
-	NSURL *url = [self openScriptURL];
-	[afkAppleScriptTextField setStringValue:[url path]];
-	[[NSUserDefaults standardUserDefaults] setURL:url forKey:@"afkAppleScriptURL"];
-}
-
-- (IBAction)afkTestAppleScriptButtonPressed:(id)sender {
-	[self runOutOfRangeEvents];
-}
-
-- (IBAction)afkClearAppleScriptButtonPressed:(id)sender {
-	[afkAppleScriptTextField setStringValue:@""];
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"afkAppleScriptURL"];	
-}
 -(IBAction)checkChanged:(id)sender {
 	[self synchronizeSettings:YES];
 	if (IS_CHECKED(monitoringEnabledCheck)) {
