@@ -440,7 +440,6 @@
 	[preferencesWindow setOrderedIndex:0];
 	[NSApp activateIgnoringOtherApps:YES];
 }
-
 - (IBAction)quitMenuItemPressed:(id)sender {
 	[NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0];
 }
@@ -448,14 +447,16 @@
 -(void)windowWillClose:(NSNotification *)notification {
 	[self synchronizeSettings:YES];
 }
--(void)windowDidBecomeKey:(NSNotification *)notification {
+-(void)applicationDidBecomeActive:(NSNotification *)notification {
+//-(void)windowDidBecomeKey:(NSNotification *)notification {
 	[self loadScripts];
 	[akScriptController compileScript:self];
-	NSLog(@"Key");
+	//NSLog(@"Key");
 }
--(void)windowDidResignKey:(NSNotification *)notification {
+-(void)applicationDidResignActive:(NSNotification *)notification {
+//-(void)windowDidResignKey:(NSNotification *)notification {
 	[self saveScripts];
-	NSLog(@"Resign key");
+	//NSLog(@"Resign key");
 	[self synchronizeSettings:YES];
 }
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRanges:(NSArray *)affectedRanges replacementStrings:(NSArray *)replacementStrings {
