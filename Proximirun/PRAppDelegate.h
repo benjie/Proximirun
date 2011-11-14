@@ -34,6 +34,7 @@ typedef enum {
 	IBOutlet NSButton *startAtLoginCheck;
 	IBOutlet NSButton *noAFKWhenInUseCheck;
 	IBOutlet NSButton *warnIfAFKAndInUseCheck;
+	IBOutlet NSButton *noAKWhenNotInUse;
 	
 	IBOutlet OSAScriptController *akScriptController;
 	IBOutlet OSAScriptView *akScriptView;

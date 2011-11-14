@@ -70,7 +70,7 @@
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
 	BOOL overridden = NO;
 	if (!iir && [self idleTime] < [monitoringIntervalTextField intValue]) {
-		if (warnIfAFKAndInUseCheck) {
+		if (IS_CHECKED(warnIfAFKAndInUseCheck)) {
 			//Growl
 			if ([GrowlApplicationBridge isGrowlRunning]) {
 				NSData *data = [NSData dataWithContentsOfFile:@"eye-150.jpg"];
@@ -80,6 +80,13 @@
 		}
 		if (IS_CHECKED(noAFKWhenInUseCheck)) {
 			iir = YES;
+			overridden = YES;
+			NSLog(@"Overriding AFK - computer is in use.");
+		}
+	} else if (deviceRange == PRDeviceRangeOutOfRange && iir && [self idleTime] > [monitoringIntervalTextField intValue]) {
+		if (IS_CHECKED(noAKWhenNotInUse)) {
+			NSLog(@"Overriding AK - computer is not in use");
+			iir = NO;
 			overridden = YES;
 		}
 	}
@@ -100,7 +107,8 @@
 	[currentRSSILabel setIntValue:RSSI>20?-128:RSSI];
 	[currentRSSISlider setIntValue:RSSI>20?-128:RSSI];
 	if (RSSI > 20) {
-		if (retry < 2) {
+		if (retry++ < 2) {
+			NSLog(@"Could not connect to device, retry %i/3",retry+1);
 			[self performSelector:@selector(connectToDevice) withObject:nil afterDelay:1];
 			return;
 		} else {
@@ -283,6 +291,19 @@
 	}
 	[startAtLoginCheck setState:(enabled?NSOnState:NSOffState)];
 }
+-(void)receiveWakeNote:(id)sender {
+	if (inProgress) return;
+	if (deviceRange == PRDeviceRangeOutOfRange) {
+		if (IS_CHECKED(noAFKWhenInUseCheck)) {
+			//Force in range.
+			[self setDeviceIsInRange:YES];
+		} else if (IS_CHECKED(noAKWhenNotInUse) && currentRSSI >= [requiredRSSITextField intValue] && currentRSSI <= 20) {
+			// Device is in range, screen woke, but we're not here
+			// Make us here!
+			[self setDeviceIsInRange:YES];
+		}
+	}
+}
 -(void)applicationWillTerminate:(NSNotification *)notification {
 	[self synchronizeSettings:YES];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -322,6 +343,10 @@
 		[self openPreferencesMenuItemPressed:self];
 		[selectDeviceButton becomeFirstResponder];
 	}
+	
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+														   selector: @selector(receiveWakeNote:) 
+															   name: NSWorkspaceDidWakeNotification object: NULL];
 
 }
 #pragma mark -
