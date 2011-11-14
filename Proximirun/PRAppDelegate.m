@@ -63,31 +63,32 @@
 		monitorTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(monitor) userInfo:nil repeats:NO] retain];
 	}
 }
--(void)setDeviceIsInRange:(BOOL)iir {
+-(void)setDeviceIsInRange:(BOOL)iir ignoreOverrides:(BOOL)ignoreOverrides {
 	[currentRSSILabel setTextColor:(iir?[NSColor colorWithDeviceRed:0 green:0.75 blue:0 alpha:1]:[NSColor redColor])];
-	inProgress = NO;
 	[self scheduleMonitor];	
 	[deviceActivityIndicator performSelector:@selector(stopAnimation:) withObject:nil afterDelay:0.2];
 	BOOL overridden = NO;
-	if (!iir && [self idleTime] < [monitoringIntervalTextField intValue]) {
-		if (IS_CHECKED(warnIfAFKAndInUseCheck)) {
-			//Growl
-			if ([GrowlApplicationBridge isGrowlRunning]) {
-				NSData *data = [NSData dataWithContentsOfFile:@"eye-150.jpg"];
-				[GrowlApplicationBridge notifyWithTitle:@"Proximirun" description:SWF(@"Device out of range, but computer active - decrease required RSSI? RSSI: %i",currentRSSI) notificationName:@"Out of range but not idle" iconData:data priority:0 isSticky:NO clickContext:@"AFKWhenInUse"];
+	if (!ignoreOverrides) {
+		if (!iir && [self idleTime] < [monitoringIntervalTextField intValue]) {
+			if (IS_CHECKED(warnIfAFKAndInUseCheck)) {
+				//Growl
+				if ([GrowlApplicationBridge isGrowlRunning]) {
+					NSData *data = [NSData dataWithContentsOfFile:@"eye-150.jpg"];
+					[GrowlApplicationBridge notifyWithTitle:@"Proximirun" description:SWF(@"Device out of range, but computer active - decrease required RSSI? RSSI: %i",currentRSSI) notificationName:@"Out of range but not idle" iconData:data priority:0 isSticky:NO clickContext:@"AFKWhenInUse"];
+				}
+				
 			}
-			
-		}
-		if (IS_CHECKED(noAFKWhenInUseCheck)) {
-			iir = YES;
-			overridden = YES;
-			NSLog(@"Overriding AFK - computer is in use.");
-		}
-	} else if (deviceRange == PRDeviceRangeOutOfRange && iir && [self idleTime] > [monitoringIntervalTextField intValue]) {
-		if (IS_CHECKED(noAKWhenNotInUse)) {
-			NSLog(@"Overriding AK - computer is not in use");
-			iir = NO;
-			overridden = YES;
+			if (IS_CHECKED(noAFKWhenInUseCheck)) {
+				iir = YES;
+				overridden = YES;
+				NSLog(@"Overriding AFK - computer is in use.");
+			}
+		} else if (deviceRange == PRDeviceRangeOutOfRange && iir && [self idleTime] > [monitoringIntervalTextField intValue]) {
+			if (IS_CHECKED(noAKWhenNotInUse)) {
+				NSLog(@"Overriding AK - computer is not in use");
+				iir = NO;
+				overridden = YES;
+			}
 		}
 	}
 	[statusItem setTitle:(iir?(overridden?@"At Mac (!)":@"In Range"):@"AFK")];
@@ -100,6 +101,10 @@
 			[self runOutOfRangeEvents];			
 		}
 	}
+	inProgress = NO;
+}
+-(void)setDeviceIsInRange:(BOOL)iir {
+	[self setDeviceIsInRange:iir ignoreOverrides:NO];
 }
 -(void)actOnRSSI:(BluetoothHCIRSSIValue)RSSI {
 	//BluetoothHCIRSSIValue Valid Range: -127 to +20
@@ -144,6 +149,7 @@
 	}
 }
 -(NSTimeInterval)idleTime {
+	if (screenAsleep) return 1000;
 	return MAX(0,CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType) - kIdleTimeFiddle);
 }
 #pragma mark -
@@ -292,11 +298,16 @@
 	[startAtLoginCheck setState:(enabled?NSOnState:NSOffState)];
 }
 -(void)receiveSleepNote:(id)sender {
+	screenAsleep = YES;
 	if ([NSApp isActive]) {
 		[self synchronizeSettings:YES];
 	}
+	if (!inProgress && deviceRange == PRDeviceRangeInRange && IS_CHECKED(noAKWhenNotInUse)) {
+		[self setDeviceIsInRange:NO ignoreOverrides:YES];
+	}
 }
 -(void)receiveWakeNote:(id)sender {
+	screenAsleep = NO;
 	if (inProgress) return;
 	if (deviceRange == PRDeviceRangeOutOfRange) {
 		if (IS_CHECKED(noAFKWhenInUseCheck)) {
@@ -351,10 +362,10 @@
 	
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
 														   selector: @selector(receiveWakeNote:) 
-															   name: NSWorkspaceDidWakeNotification object: NULL];
+															   name: NSWorkspaceScreensDidWakeNotification object: NULL];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
 														   selector: @selector(receiveSleepNote:) 
-															   name: NSWorkspaceWillSleepNotification object: NULL];
+															   name: NSWorkspaceScreensDidSleepNotification object: NULL];
 
 }
 #pragma mark -

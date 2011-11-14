@@ -69,6 +69,8 @@ typedef enum {
 	
 	
 	NSArray *alreadyRunningApplications;
+	
+	BOOL screenAsleep;
 }
 
 @property (assign) IBOutlet NSWindow *window;
