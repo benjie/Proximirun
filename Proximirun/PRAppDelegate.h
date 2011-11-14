@@ -11,6 +11,7 @@
 #import <Growl/Growl.h>
 #import <OSAKit/OSAKit.h>
 #define kEditorIdentifier @"com.apple.ScriptEditor2"
+#define kIdleTimeFiddle 15.0
 typedef enum {
 	PRDeviceRangeUnknown,
 	PRDeviceRangeInRange,

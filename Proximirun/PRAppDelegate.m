@@ -144,7 +144,7 @@
 	}
 }
 -(NSTimeInterval)idleTime {
-	return CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+	return MAX(0,CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType) - kIdleTimeFiddle);
 }
 #pragma mark -
 - (void)dealloc
@@ -291,6 +291,11 @@
 	}
 	[startAtLoginCheck setState:(enabled?NSOnState:NSOffState)];
 }
+-(void)receiveSleepNote:(id)sender {
+	if ([NSApp isActive]) {
+		[self synchronizeSettings:YES];
+	}
+}
 -(void)receiveWakeNote:(id)sender {
 	if (inProgress) return;
 	if (deviceRange == PRDeviceRangeOutOfRange) {
@@ -347,6 +352,9 @@
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
 														   selector: @selector(receiveWakeNote:) 
 															   name: NSWorkspaceDidWakeNotification object: NULL];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+														   selector: @selector(receiveSleepNote:) 
+															   name: NSWorkspaceWillSleepNotification object: NULL];
 
 }
 #pragma mark -
@@ -476,12 +484,12 @@
 //-(void)windowDidBecomeKey:(NSNotification *)notification {
 	[self loadScripts];
 	[akScriptController compileScript:self];
-	//NSLog(@"Key");
+	NSLog(@"Key");
 }
 -(void)applicationDidResignActive:(NSNotification *)notification {
 //-(void)windowDidResignKey:(NSNotification *)notification {
 	[self saveScripts];
-	//NSLog(@"Resign key");
+	NSLog(@"Resign key");
 	[self synchronizeSettings:YES];
 }
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRanges:(NSArray *)affectedRanges replacementStrings:(NSArray *)replacementStrings {
@@ -490,6 +498,10 @@
 	} else if (textView == afkScriptView) {
 		afkScriptViewIsDirty = YES;
 	}
+	[self performSelector:@selector(save) withObject:nil afterDelay:0];
 	return YES;
+}
+-(void)save {
+	[self synchronizeSettings:YES];
 }
 @end
