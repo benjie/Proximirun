@@ -282,6 +282,7 @@
 			}
 		}
 	}
+	CFRelease(array);
 	if (!found) {
 		if (trustDisplay) {
 			if (IS_CHECKED(startAtLoginCheck)) {
